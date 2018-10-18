@@ -38,8 +38,9 @@ public class ServiceImplTest {
   private static final Logger LOGGER = LogManager.getLogger(ServiceImplTest.class);
 
   private static final String GUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Guest-with-reservations.json";
-  private static final String RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/ReservationRequest.json";
+  private static final String RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Reservation-request.json";
   private static final String HOTEL = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Hotel.json";
+  private static final String UPDATE_RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Update-reservation-request.json";
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -109,5 +110,34 @@ public class ServiceImplTest {
         .deleteReservation(new ObjectId("5bc7340b677aa44e986d19db"), new ObjectId("5bc449c09ddbcd660ac58f07"));
 
     Assert.assertEquals(guestReturn.getReservations().size(), 0);
+  }
+
+  @Test
+  public void updateReservationTest() throws Exception {
+    LOGGER.debug("test: update reservation");
+
+    Guest guest = objectMapper.readValue(new File(GUEST), Guest.class);
+    Hotel hotel = objectMapper.readValue(new File(HOTEL), Hotel.class);
+    List<Guest> guests = new ArrayList<>();
+    guests.add(guest);
+
+    expect(reservationMockDao.getGuestByGuestId(new ObjectId("5bc449c09ddbcd660ac58f07"))).andReturn(guest);
+    expect(reservationMockDao.getHotelByName("Abc")).andReturn(hotel);
+    expect(reservationMockDao.getGuests()).andReturn(guests);
+    reservationMockDao.createReservation(anyObject());
+    replay(reservationMockDao);
+
+    ReservationRequest updateReservationRequest = objectMapper
+        .readValue(new File(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
+    Guest guestReturn = reservationService.updateReservation(new ObjectId("5bc7340b677aa44e986d19db"), updateReservationRequest);
+
+    Reservation reservationReturn = guestReturn.getReservations()
+        .stream()
+        .filter(o -> o.getReservationId().equals(new ObjectId("5bc7340b677aa44e986d19db")))
+        .findFirst()
+        .orElse(null);
+
+    assert reservationReturn != null;
+    Assert.assertEquals(reservationReturn.getApartmentNumber(), "1");
   }
 }

@@ -6,6 +6,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -41,7 +42,8 @@ public class ControllerMockTest {
 
   private static final String RESERVATION = "/home/yauheni_rotar/HotelReservation/controller/src/test/resources/Reservation.json";
   private static final String GUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Guest-with-reservations.json";
-  private static final String RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/ReservationRequest.json";
+  private static final String RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Reservation-request.json";
+  private static final String UPDATE_RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Update-reservation-request.json";
 
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -115,5 +117,24 @@ public class ControllerMockTest {
             .content(objectMapper.writeValueAsString(reservationRequest))
     ).andDo(print())
         .andExpect(status().isCreated());
+  }
+
+  @Test
+  public void updateReservationTest() throws Exception {
+    ReservationRequest updateReservationRequest = objectMapper.readValue(new File(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
+    Guest guest = objectMapper.readValue(new File(GUEST), Guest.class);
+
+    expect(reservationService
+        .updateReservation(anyObject(),anyObject()))
+        .andReturn(guest);
+    replay(reservationService);
+
+    mockMvc.perform(
+        put("/reservations/5bc7340b677aa44e986d19db")
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(updateReservationRequest))
+    ).andDo(print())
+        .andExpect(status().isAccepted());
   }
 }
