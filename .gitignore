@@ -38,3 +38,4 @@ com_crashlytics_export_strings.xml
 **/target/
 **/logs/
 .log  
+**/.directory
