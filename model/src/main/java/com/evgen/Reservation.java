@@ -2,6 +2,7 @@ package com.evgen;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -10,9 +11,19 @@ public class Reservation {
   @Id
   private ObjectId reservationId;
 
-  private Apartment apartment;
+  @DBRef(lazy = true)
+  private Hotel hotel;
 
-  private Guest guest;
+  private String apartmentNumber;
+
+  public Reservation() {
+  }
+
+  public Reservation(Hotel hotel, String apartmentNumber, ObjectId reservationId) {
+    this.apartmentNumber = apartmentNumber;
+    this.hotel = hotel;
+    this.reservationId = reservationId;
+  }
 
   public ObjectId getReservationId() {
     return reservationId;
@@ -22,19 +33,19 @@ public class Reservation {
     this.reservationId = reservationId;
   }
 
-  public Apartment getApartment() {
-    return apartment;
+  public Hotel getHotel() {
+    return hotel;
   }
 
-  public void setApartment(Apartment apartment) {
-    this.apartment = apartment;
+  public void setHotel(Hotel hotel) {
+    this.hotel = hotel;
   }
 
-  public Guest getGuest() {
-    return guest;
+  public String getApartmentNumber() {
+    return apartmentNumber;
   }
 
-  public void setGuest(Guest guest) {
-    this.guest = guest;
+  public void setApartmentNumber(String apartmentNumber) {
+    this.apartmentNumber = apartmentNumber;
   }
 }

@@ -1,5 +1,7 @@
 package com.evgen;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +14,15 @@ public class Guest {
 
   private String name;
 
-  private Reservation reservation;
+  private List<Reservation> reservations;
+
+  public Guest() {
+  }
+
+  public Guest(ObjectId guestId, List<Reservation> reservations) {
+    this.guestId = guestId;
+    this.reservations = reservations;
+  }
 
   public ObjectId getGuestId() {
     return guestId;
@@ -30,11 +40,11 @@ public class Guest {
     this.name = name;
   }
 
-  public Reservation getReservation() {
-    return reservation;
+  public List<Reservation> getReservations() {
+    return reservations;
   }
 
- // public void setReservation(Reservation reservation) {
- //   this.reservation = reservation;
- // }
+  public void setReservations(List<Reservation> reservations) {
+    this.reservations = reservations;
+  }
 }

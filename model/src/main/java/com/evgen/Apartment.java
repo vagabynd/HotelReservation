@@ -1,40 +1,24 @@
 package com.evgen;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
 public class Apartment {
 
-  @Id
-  private ObjectId apartmentId;
+  private Integer apartmentNumber;
 
-  private Integer roomCount;
+  private String roomCount;
 
-  private Hotel hotel;
-
-  public ObjectId getApartmentId() {
-    return apartmentId;
+  public Integer getApartmentNumber() {
+    return apartmentNumber;
   }
 
-  public void setApartmentId(ObjectId apartmentId) {
-    this.apartmentId = apartmentId;
+  public void setApartmentNumber(Integer apartmentNumber) {
+    this.apartmentNumber = apartmentNumber;
   }
 
-  public Integer getRoomCount() {
+  public String getRoomCount() {
     return roomCount;
   }
 
-  public void setRoomCount(Integer roomCount) {
+  public void setRoomCount(String roomCount) {
     this.roomCount = roomCount;
-  }
-
-  public Hotel getHotel() {
-    return hotel;
-  }
-
-  public void setHotel(Hotel hotel) {
-    this.hotel = hotel;
   }
 }
