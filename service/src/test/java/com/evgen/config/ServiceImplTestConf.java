@@ -4,8 +4,8 @@ import org.easymock.EasyMock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.evgen.dao.ReservationDao;
-import com.evgen.dao.ReservationDaoImpl;
+import com.evgen.dao.GuestRepository;
+import com.evgen.dao.HotelRepository;
 import com.evgen.service.ReservationService;
 import com.evgen.service.ReservationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,13 +14,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ServiceImplTestConf {
 
   @Bean
-  public ReservationDao reservationDao() {
-    return EasyMock.createMock(ReservationDaoImpl.class);
+  public GuestRepository guestRepository() {
+    return EasyMock.createMock(GuestRepository.class);
+  }
+
+  @Bean
+  public HotelRepository hotelRepository() {
+    return EasyMock.createMock(HotelRepository.class);
   }
 
   @Bean
   public ReservationService reservationService(){
-    return new ReservationServiceImpl(reservationDao());
+    return new ReservationServiceImpl(guestRepository(),hotelRepository());
   }
 
   @Bean

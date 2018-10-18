@@ -12,31 +12,34 @@ import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.dao.ReservationDao;
+import com.evgen.dao.GuestRepository;
+import com.evgen.dao.HotelRepository;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-  private final ReservationDao reservationDao;
+  private final GuestRepository guestRepository;
+  private final HotelRepository hotelRepository;
 
   @Autowired
-  public ReservationServiceImpl(ReservationDao reservationDao) {
-    this.reservationDao = reservationDao;
+  public ReservationServiceImpl(GuestRepository guestRepository, HotelRepository hotelRepository) {
+    this.guestRepository = guestRepository;
+    this.hotelRepository = hotelRepository;
   }
 
   @Override
   public Guest createReservation(ReservationRequest reservationRequest) {
-    Guest guest = reservationDao.getGuestByGuestId(reservationRequest.getGuestIdAsObjectId());
-    Hotel hotel = reservationDao.getHotelByName(reservationRequest.getHotelName());
+    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsObjectId());
+    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
     Reservation reservation = new Reservation(hotel, reservationRequest.getApartmentNumber(), new ObjectId());
     guest.getReservations().add(reservation);
-    reservationDao.createReservation(guest);
+    guestRepository.save(guest);
     return guest;
   }
 
   @Override
   public Reservation retrieveReservation(ObjectId id) {
-    return reservationDao.getGuests()
+    return guestRepository.findAll()
         .stream()
         .map(Guest::getReservations)
         .flatMap(Collection::stream)
@@ -47,8 +50,8 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest updateReservation(ObjectId reservationId, ReservationRequest reservationRequest) {
-    Guest guest = reservationDao.getGuestByGuestId(reservationRequest.getGuestIdAsObjectId());
-    Hotel hotel = reservationDao.getHotelByName(reservationRequest.getHotelName());
+    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsObjectId());
+    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
     Reservation reservation = retrieveReservation(reservationId);
     reservation.setHotel(hotel);
     reservation.setApartmentNumber(reservationRequest.getApartmentNumber());
@@ -58,19 +61,19 @@ public class ReservationServiceImpl implements ReservationService {
         .collect(Collectors.toList());
     updateReservations.add(reservation);
     guest.setReservations(updateReservations);
-    reservationDao.createReservation(guest);
+    guestRepository.save(guest);
     return guest;
   }
 
   @Override
   public Guest deleteReservation(ObjectId id, ObjectId guestId) {
-    Guest guest = reservationDao.getGuestByGuestId(guestId);
+    Guest guest = guestRepository.findByGuestId(guestId);
     List<Reservation> reservations = guest.getReservations()
         .stream()
         .filter(o -> !o.getReservationId().equals(id))
         .collect(Collectors.toList());
     guest.setReservations(reservations);
-    reservationDao.createReservation(guest);
+    guestRepository.save(guest);
     return guest;
   }
 }

@@ -40,10 +40,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebAppConfiguration
 public class ControllerMockTest {
 
-  private static final String RESERVATION = "/home/yauheni_rotar/HotelReservation/controller/src/test/resources/Reservation.json";
-  private static final String GUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Guest-with-reservations.json";
-  private static final String RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Reservation-request.json";
-  private static final String UPDATE_RESERVATION_REQUEST = "/home/yauheni_rotar/HotelReservation/service/src/test/java/resources/Update-reservation-request.json";
+  private static final String RESERVATION = "/Reservation.json";
+  private static final String GUEST = "/Guest-with-reservations.json";
+  private static final String RESERVATION_REQUEST = "/Reservation-request.json";
+  private static final String UPDATE_RESERVATION_REQUEST = "/Update-reservation-request.json";
 
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -69,7 +69,7 @@ public class ControllerMockTest {
 
   @Test
   public void retrieveReservationTest() throws Exception {
-    Reservation reservationRequest = objectMapper.readValue(new File(RESERVATION), Reservation.class);
+    Reservation reservationRequest = objectMapper.readValue(getClass().getResourceAsStream(RESERVATION), Reservation.class);
 
     expect(reservationService.retrieveReservation(new ObjectId("5bc7340b677aa44e986d19db")))
         .andReturn(reservationRequest);
@@ -84,7 +84,7 @@ public class ControllerMockTest {
 
   @Test
   public void deleteReservationTest() throws Exception {
-    Guest guest = objectMapper.readValue(new File(GUEST), Guest.class);
+    Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
         .deleteReservation(new ObjectId("5bc7340b677aa44e986d19db"), new ObjectId("5bc449c09ddbcd660ac58f07")))
@@ -102,8 +102,8 @@ public class ControllerMockTest {
   @Test
   public void createReservationTest() throws Exception {
     ReservationRequest reservationRequest = objectMapper
-        .readValue(new File(RESERVATION_REQUEST), ReservationRequest.class);
-    Guest guest = objectMapper.readValue(new File(GUEST), Guest.class);
+        .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), ReservationRequest.class);
+    Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
         .createReservation(anyObject()))
@@ -121,8 +121,8 @@ public class ControllerMockTest {
 
   @Test
   public void updateReservationTest() throws Exception {
-    ReservationRequest updateReservationRequest = objectMapper.readValue(new File(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
-    Guest guest = objectMapper.readValue(new File(GUEST), Guest.class);
+    ReservationRequest updateReservationRequest = objectMapper.readValue(getClass().getResourceAsStream(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
+    Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
         .updateReservation(anyObject(),anyObject()))
