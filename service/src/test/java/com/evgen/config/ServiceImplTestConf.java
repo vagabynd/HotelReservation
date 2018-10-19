@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
+import com.evgen.dao.ReservationRepository;
 import com.evgen.service.ReservationService;
 import com.evgen.service.ReservationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,12 +25,17 @@ public class ServiceImplTestConf {
   }
 
   @Bean
-  public ReservationService reservationService(){
-    return new ReservationServiceImpl(guestRepository(),hotelRepository());
+  public ReservationRepository reservationRepository() {
+    return EasyMock.createMock(ReservationRepository.class);
+  }
+
+  @Bean
+  public ReservationService reservationService() {
+    return new ReservationServiceImpl(guestRepository(), hotelRepository(), reservationRepository());
   }
 
   @Bean
   public ObjectMapper objectMapper() {
-    return  new ObjectMapper();
+    return new ObjectMapper();
   }
 }

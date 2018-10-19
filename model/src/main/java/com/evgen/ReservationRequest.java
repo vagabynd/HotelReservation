@@ -10,6 +10,10 @@ public class ReservationRequest {
 
   private String hotelName;
 
+  private String startReservationData;
+
+  private String endReservationData;
+
   public String getGuestId() {
     return guestId;
   }
@@ -36,5 +40,21 @@ public class ReservationRequest {
 
   public ObjectId getGuestIdAsObjectId() {
     return new ObjectId(guestId);
+  }
+
+  public String getStartReservationData() {
+    return startReservationData;
+  }
+
+  public void setStartReservationData(String startReservationData) {
+    this.startReservationData = startReservationData;
+  }
+
+  public String getEndReservationData() {
+    return endReservationData;
+  }
+
+  public void setEndReservationData(String endReservationData) {
+    this.endReservationData = endReservationData;
   }
 }

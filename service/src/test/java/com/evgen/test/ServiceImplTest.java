@@ -1,5 +1,6 @@
 package com.evgen.test;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -27,6 +28,7 @@ import com.evgen.ReservationRequest;
 import com.evgen.config.ServiceImplTestConf;
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
+import com.evgen.dao.ReservationRepository;
 import com.evgen.service.ReservationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,6 +42,7 @@ public class ServiceImplTest {
   private static final String RESERVATION_REQUEST = "/Reservation-request.json";
   private static final String HOTEL = "/Hotel.json";
   private static final String UPDATE_RESERVATION_REQUEST = "/Update-reservation-request.json";
+  private static final String RESERVATIONS = "/Reservations.json";
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -53,6 +56,9 @@ public class ServiceImplTest {
   @Autowired
   private HotelRepository hotelRepositoryMock;
 
+  @Autowired
+  private ReservationRepository reservationRepositoryMock;
+
   @After
   public void clean() {
     verify();
@@ -61,6 +67,7 @@ public class ServiceImplTest {
   @Before
   public void setUp() {
     reset(guestRepositoryMock);
+    reset(reservationRepositoryMock);
     reset(hotelRepositoryMock);
   }
 
@@ -68,12 +75,12 @@ public class ServiceImplTest {
   public void retrieveReservationTest() throws Exception {
     LOGGER.debug("test: retrieve reservation");
 
-    List<Guest> guests = new ArrayList<>();
-    Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
-    guests.add(guest);
+    List<Reservation> reservations = new ArrayList<>();
+    Reservation reservationTest = objectMapper.readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
+    reservations.add(reservationTest);
 
-    expect(guestRepositoryMock.findAll()).andReturn(guests);
-    replay(guestRepositoryMock);
+    expect(reservationRepositoryMock.findAll()).andReturn(reservations);
+    replay(reservationRepositoryMock);
 
     Reservation reservation = reservationService.retrieveReservation(new ObjectId("5bc7340b677aa44e986d19db"));
 
@@ -90,7 +97,8 @@ public class ServiceImplTest {
     expect(guestRepositoryMock.findByGuestId(new ObjectId("5bc449c09ddbcd660ac58f07"))).andReturn(guest);
     expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
     expect(guestRepositoryMock.save(guest)).andReturn(guest);
-    replay(hotelRepositoryMock, guestRepositoryMock);
+    expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
+    replay(hotelRepositoryMock, guestRepositoryMock, reservationRepositoryMock);
 
     ReservationRequest reservationRequest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), ReservationRequest.class);
@@ -121,14 +129,16 @@ public class ServiceImplTest {
 
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
-    List<Guest> guests = new ArrayList<>();
-    guests.add(guest);
+
+    List<Reservation> reservations = new ArrayList<>();
+    Reservation reservationTest = objectMapper.readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
+    reservations.add(reservationTest);
 
     expect(guestRepositoryMock.findByGuestId(new ObjectId("5bc449c09ddbcd660ac58f07"))).andReturn(guest);
     expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
-    expect(guestRepositoryMock.findAll()).andReturn(guests);
-    expect(guestRepositoryMock.save(guest)).andReturn(guest);
-    replay(guestRepositoryMock, hotelRepositoryMock);
+    expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
+    expect(reservationRepositoryMock.findAll()).andReturn(reservations);
+    replay(guestRepositoryMock, hotelRepositoryMock, reservationRepositoryMock);
 
     ReservationRequest updateReservationRequest = objectMapper
         .readValue(getClass().getResourceAsStream(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
@@ -141,6 +151,6 @@ public class ServiceImplTest {
         .orElse(null);
 
     assert reservationReturn != null;
-    Assert.assertEquals(reservationReturn.getApartmentNumber(), "1");
+    Assert.assertEquals(reservationReturn.getApartmentNumber(), "3");
   }
 }

@@ -2,15 +2,15 @@ package com.evgen;
 
 public class Apartment {
 
-  private Integer apartmentNumber;
+  private String apartmentNumber;
 
   private String roomCount;
 
-  public Integer getApartmentNumber() {
+  public String getApartmentNumber() {
     return apartmentNumber;
   }
 
-  public void setApartmentNumber(Integer apartmentNumber) {
+  public void setApartmentNumber(String apartmentNumber) {
     this.apartmentNumber = apartmentNumber;
   }
 
