@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @CompoundIndexes({
     @CompoundIndex(name = "name3",
         unique = true,
-        def = "{'apartmentNumber' : 1, 'reservationDay' : 1, 'hotel' : 1}")
+        def = "{'apartmentNumber' : 2, 'reservationDay' : 2, 'hotel' : 1}")
 })
 public class Reservation {
 
