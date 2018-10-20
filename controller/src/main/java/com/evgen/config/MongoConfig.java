@@ -3,7 +3,9 @@ package com.evgen.config;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -12,16 +14,23 @@ import com.mongodb.MongoClientURI;
 
 @Configuration
 @EnableMongoRepositories(basePackages = "com.evgen.dao")
+@PropertySource("classpath:db.properties")
 public class MongoConfig extends AbstractMongoConfiguration {
+
+  @Value("${reservations.url}")
+  private String url;
+
+  @Value("${reservations.name}")
+  private String name;
 
   @Override
   protected String getDatabaseName() {
-    return "hotel_management";
+    return name;
   }
 
   @Override
   public MongoClient mongoClient() {
-    MongoClientURI uri = new MongoClientURI("mongodb://rotar:rotar2612@ds125683.mlab.com:25683/hotel_management");
+    MongoClientURI uri = new MongoClientURI(url);
     return new MongoClient(uri);
   }
 
