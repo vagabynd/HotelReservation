@@ -1,17 +1,24 @@
 package com.evgen;
 
+import javax.validation.constraints.NotNull;
+
 import org.bson.types.ObjectId;
 
 public class ReservationRequest {
 
+  @NotNull(message = "ApartmentNumber cannot be null")
   private String apartmentNumber;
 
+  @NotNull(message = "GuestId cannot be null")
   private String guestId;
 
+  @NotNull(message = "HotelName cannot be null")
   private String hotelName;
 
+  @NotNull(message = "StartReservationData cannot be null")
   private String startReservationData;
 
+  @NotNull(message = "EndReservationData cannot be null")
   private String endReservationData;
 
   public String getGuestId() {

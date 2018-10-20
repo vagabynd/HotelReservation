@@ -27,6 +27,7 @@
     <log4j.version>2.4.1</log4j.version>
     <junit.version>4.12</junit.version>
     <easymock.version>3.4</easymock.version>
+    <validation-api.version>2.0.0.Final</validation-api.version>
   </properties>
 
   <dependencyManagement>
@@ -103,6 +104,12 @@
         <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api.version}</version>
         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>${validation-api.version}</version>
       </dependency>
 
       <dependency>
