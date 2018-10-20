@@ -1,5 +1,8 @@
 package com.evgen.config;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -23,7 +26,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
   }
 
   @Override
-  protected String getMappingBasePackage() {
-    return "com.evgen";
+  protected Collection<String> getMappingBasePackages() {
+    return Collections.singleton("com.evgen");
   }
 }

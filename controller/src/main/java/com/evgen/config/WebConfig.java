@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @Import(MongoConfig.class)
 @ComponentScan(basePackages = "com.evgen.*")
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
 
   @Bean
   public MappingJackson2HttpMessageConverter jsonConverter() {
@@ -30,7 +31,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     converters.add(jsonConverter());
-    super.configureMessageConverters(converters);
   }
 
 }

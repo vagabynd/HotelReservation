@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import org.springframework.web.server.ServerWebInputException;
 
 import com.evgen.Apartment;
 import com.evgen.Guest;
@@ -49,7 +49,7 @@ public class ReservationServiceImpl implements ReservationService {
         .filter(o -> o.getApartmentNumber().equals(reservationRequest.getApartmentNumber()))
         .findFirst()
         .orElse(null);
-    Assert.notNull(apartment, "Apartment should not be null");
+    if (apartment == null) throw new ServerWebInputException("Apartment should not be null");
 
     Reservation reservation = new Reservation(hotel, reservationRequest.getApartmentNumber(), new ObjectId(),
         getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()));
