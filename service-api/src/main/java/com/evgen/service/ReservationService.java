@@ -1,7 +1,5 @@
 package com.evgen.service;
 
-import org.bson.types.ObjectId;
-
 import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
@@ -10,10 +8,10 @@ public interface ReservationService {
 
   Guest createReservation(ReservationRequest reservationRequest);
 
-  Reservation retrieveReservation(ObjectId id);
+  Reservation retrieveReservation(String id);
 
-  Guest updateReservation(ObjectId reservationId,ReservationRequest reservationRequest);
+  Guest updateReservation(String reservationId,ReservationRequest reservationRequest);
 
-  Guest deleteReservation(ObjectId id, ObjectId guestId);
+  Guest deleteReservation(String id, String guestId);
 
 }

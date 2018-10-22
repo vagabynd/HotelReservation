@@ -2,7 +2,9 @@ package com.evgen;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -18,7 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Reservation {
 
   @Id
-  private ObjectId reservationId;
+  private String reservationId;
 
   @DBRef
   private Hotel hotel;
@@ -26,6 +28,16 @@ public class Reservation {
   private String apartmentNumber;
 
   private List<Long> reservationDay;
+
+  public Reservation() {
+  }
+
+  public Reservation(String reservationId, Hotel hotel, String apartmentNumber, List<Long> reservationDay) {
+    this.apartmentNumber = apartmentNumber;
+    this.hotel = hotel;
+    this.reservationDay = reservationDay;
+    this.reservationId =reservationId;
+  }
 
   public List<Long> getReservationDay() {
     return reservationDay;
@@ -35,21 +47,11 @@ public class Reservation {
     this.reservationDay = reservationDay;
   }
 
-  public Reservation() {
-  }
-
-  public Reservation(Hotel hotel, String apartmentNumber, ObjectId reservationId, List<Long> reservationDay) {
-    this.apartmentNumber = apartmentNumber;
-    this.hotel = hotel;
-    this.reservationId = reservationId;
-    this.reservationDay = reservationDay;
-  }
-
-  public ObjectId getReservationId() {
+  public String getReservationId() {
     return reservationId;
   }
 
-  public void setReservationId(ObjectId reservationId) {
+  public void setReservationId(String reservationId) {
     this.reservationId = reservationId;
   }
 

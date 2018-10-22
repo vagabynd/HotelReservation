@@ -1,6 +1,5 @@
 package com.evgen.controller;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,14 +40,14 @@ public class ReservationController {
   @GetMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Reservation retrieveReservation(@PathVariable("id") ObjectId id) {
+  public Reservation retrieveReservation(@PathVariable("id") String id) {
     return reservationService.retrieveReservation(id);
   }
 
   @PutMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
-  public Guest updateReservation(@PathVariable("id") ObjectId reservationId,
+  public Guest updateReservation(@PathVariable("id") String reservationId,
       @RequestBody ReservationRequest reservationRequest) {
     return reservationService.updateReservation(reservationId, reservationRequest);
   }
@@ -56,8 +55,8 @@ public class ReservationController {
   @DeleteMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Guest deleteReservation(@PathVariable("id") ObjectId id,
-      @RequestHeader(value = "guestId") ObjectId guestId) {
+  public Guest deleteReservation(@PathVariable("id") String id,
+      @RequestHeader(value = "guestId") String guestId) {
     return reservationService.deleteReservation(id, guestId);
   }
 }

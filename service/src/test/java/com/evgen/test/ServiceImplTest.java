@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -76,13 +75,14 @@ public class ServiceImplTest {
     LOGGER.debug("test: retrieve reservation");
 
     List<Reservation> reservations = new ArrayList<>();
-    Reservation reservationTest = objectMapper.readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
+    Reservation reservationTest = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
     reservations.add(reservationTest);
 
     expect(reservationRepositoryMock.findAll()).andReturn(reservations);
     replay(reservationRepositoryMock);
 
-    Reservation reservation = reservationService.retrieveReservation(new ObjectId("5bc7340b677aa44e986d19db"));
+    Reservation reservation = reservationService.retrieveReservation("5bc7340b677aa44e986d19db");
 
     Assert.assertEquals(reservation.getReservationId().toString(), "5bc7340b677aa44e986d19db");
   }
@@ -94,7 +94,7 @@ public class ServiceImplTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
 
-    expect(guestRepositoryMock.findByGuestId(new ObjectId("5bc449c09ddbcd660ac58f07"))).andReturn(guest);
+    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
     expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
     expect(guestRepositoryMock.save(guest)).andReturn(guest);
     expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
@@ -113,12 +113,12 @@ public class ServiceImplTest {
 
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
-    expect(guestRepositoryMock.findByGuestId(new ObjectId("5bc449c09ddbcd660ac58f07"))).andReturn(guest);
+    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
     expect(guestRepositoryMock.save(guest)).andReturn(guest);
     replay(guestRepositoryMock);
 
     Guest guestReturn = reservationService
-        .deleteReservation(new ObjectId("5bc7340b677aa44e986d19db"), new ObjectId("5bc449c09ddbcd660ac58f07"));
+        .deleteReservation("5bc7340b677aa44e986d19db", "5bc449c09ddbcd660ac58f07");
 
     Assert.assertEquals(guestReturn.getReservations().size(), 0);
   }
@@ -131,10 +131,11 @@ public class ServiceImplTest {
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
 
     List<Reservation> reservations = new ArrayList<>();
-    Reservation reservationTest = objectMapper.readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
+    Reservation reservationTest = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
     reservations.add(reservationTest);
 
-    expect(guestRepositoryMock.findByGuestId(new ObjectId("5bc449c09ddbcd660ac58f07"))).andReturn(guest);
+    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
     expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
     expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
     expect(reservationRepositoryMock.findAll()).andReturn(reservations);
@@ -142,11 +143,12 @@ public class ServiceImplTest {
 
     ReservationRequest updateReservationRequest = objectMapper
         .readValue(getClass().getResourceAsStream(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
-    Guest guestReturn = reservationService.updateReservation(new ObjectId("5bc7340b677aa44e986d19db"), updateReservationRequest);
+    Guest guestReturn = reservationService
+        .updateReservation("5bc7340b677aa44e986d19db", updateReservationRequest);
 
     Reservation reservationReturn = guestReturn.getReservations()
         .stream()
-        .filter(o -> o.getReservationId().equals(new ObjectId("5bc7340b677aa44e986d19db")))
+        .filter(o -> o.getReservationId().equals("5bc7340b677aa44e986d19db"))
         .findFirst()
         .orElse(null);
 

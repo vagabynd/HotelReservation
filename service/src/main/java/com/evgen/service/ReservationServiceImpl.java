@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -14,11 +13,9 @@ import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
 
-import com.evgen.Apartment;
 import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
@@ -44,12 +41,12 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest createReservation(ReservationRequest reservationRequest) {
-    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsObjectId());
+    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsString());
     Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
     validApartment(reservationRequest, hotel);
 
-    Reservation reservation = new Reservation(hotel, reservationRequest.getApartmentNumber(), new ObjectId(),
+    Reservation reservation = new Reservation(new ObjectId().toString(), hotel, reservationRequest.getApartmentNumber(),
         getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()));
     guest.getReservations().add(reservation);
 
@@ -60,7 +57,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public Reservation retrieveReservation(ObjectId id) {
+  public Reservation retrieveReservation(String id) {
     return reservationRepository.findAll()
         .stream()
         .filter(o -> o.getReservationId().equals(id))
@@ -69,8 +66,8 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public Guest updateReservation(ObjectId reservationId, ReservationRequest reservationRequest) {
-    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsObjectId());
+  public Guest updateReservation(String reservationId, ReservationRequest reservationRequest) {
+    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsString());
     Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
     Reservation reservation = retrieveReservation(reservationId);
@@ -84,7 +81,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public Guest deleteReservation(ObjectId id, ObjectId guestId) {
+  public Guest deleteReservation(String id, String guestId) {
     Guest guest = guestRepository.findByGuestId(guestId);
     List<Reservation> reservations = guest.getReservations()
         .stream()

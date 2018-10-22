@@ -2,8 +2,6 @@ package com.evgen;
 
 import javax.validation.constraints.NotNull;
 
-import org.bson.types.ObjectId;
-
 public class ReservationRequest {
 
   @NotNull(message = "ApartmentNumber cannot be null")
@@ -45,8 +43,8 @@ public class ReservationRequest {
     this.hotelName = hotelName;
   }
 
-  public ObjectId getGuestIdAsObjectId() {
-    return new ObjectId(guestId);
+  public String getGuestIdAsString() {
+    return guestId;
   }
 
   public String getStartReservationData() {

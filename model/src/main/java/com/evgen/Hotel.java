@@ -2,7 +2,6 @@ package com.evgen;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,17 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Hotel {
 
   @Id
-  private ObjectId hotelId;
+  private String hotelId;
 
   private String hotelName;
 
   private List<Apartment> apartments;
 
-  public ObjectId getHotelId() {
+  public String getHotelId() {
     return hotelId;
   }
 
-  public void setHotelId(ObjectId hotelId) {
+  public void setHotelId(String hotelId) {
     this.hotelId = hotelId;
   }
 

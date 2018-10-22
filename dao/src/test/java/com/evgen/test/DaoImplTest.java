@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,7 +74,7 @@ public class DaoImplTest {
   public void deleteReservationByIdTest() {
     LOGGER.debug("test: delete reservation by id");
 
-    reservationRepository.deleteByReservationId(new ObjectId("5bc7340b677aa44e986d19db"));
+    reservationRepository.deleteByReservationId("5bc7340b677aa44e986d19db");
     Assert.assertEquals(reservationRepository.findAll().size(), 0);
   }
 

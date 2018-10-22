@@ -6,15 +6,12 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.File;
-
-import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,9 +66,10 @@ public class ControllerMockTest {
 
   @Test
   public void retrieveReservationTest() throws Exception {
-    Reservation reservationRequest = objectMapper.readValue(getClass().getResourceAsStream(RESERVATION), Reservation.class);
+    Reservation reservationRequest = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATION), Reservation.class);
 
-    expect(reservationService.retrieveReservation(new ObjectId("5bc7340b677aa44e986d19db")))
+    expect(reservationService.retrieveReservation("5bc7340b677aa44e986d19db"))
         .andReturn(reservationRequest);
     replay(reservationService);
 
@@ -87,7 +85,7 @@ public class ControllerMockTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
-        .deleteReservation(new ObjectId("5bc7340b677aa44e986d19db"), new ObjectId("5bc449c09ddbcd660ac58f07")))
+        .deleteReservation("5bc7340b677aa44e986d19db", "5bc449c09ddbcd660ac58f07"))
         .andReturn(guest);
     replay(reservationService);
 
@@ -121,11 +119,12 @@ public class ControllerMockTest {
 
   @Test
   public void updateReservationTest() throws Exception {
-    ReservationRequest updateReservationRequest = objectMapper.readValue(getClass().getResourceAsStream(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
+    ReservationRequest updateReservationRequest = objectMapper
+        .readValue(getClass().getResourceAsStream(UPDATE_RESERVATION_REQUEST), ReservationRequest.class);
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
-        .updateReservation(anyObject(),anyObject()))
+        .updateReservation(anyObject(), anyObject()))
         .andReturn(guest);
     replay(reservationService);
 
