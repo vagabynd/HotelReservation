@@ -38,4 +38,5 @@ public class MongoConfig extends AbstractMongoConfiguration {
   protected Collection<String> getMappingBasePackages() {
     return Collections.singleton("com.evgen");
   }
+
 }

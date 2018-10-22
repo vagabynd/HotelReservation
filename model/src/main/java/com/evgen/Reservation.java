@@ -2,9 +2,6 @@ package com.evgen;
 
 import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -30,13 +27,6 @@ public class Reservation {
   private List<Long> reservationDay;
 
   public Reservation() {
-  }
-
-  public Reservation(String reservationId, Hotel hotel, String apartmentNumber, List<Long> reservationDay) {
-    this.apartmentNumber = apartmentNumber;
-    this.hotel = hotel;
-    this.reservationDay = reservationDay;
-    this.reservationId =reservationId;
   }
 
   public List<Long> getReservationDay() {
@@ -71,4 +61,47 @@ public class Reservation {
     this.apartmentNumber = apartmentNumber;
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public Builder updater() {
+    return new Builder(this);
+  }
+
+  public static class Builder {
+    private Reservation instance;
+
+    Builder() {
+      this.instance = new Reservation();
+    }
+
+    Builder(Reservation instance) {
+      this.instance = instance;
+    }
+
+    public Builder setHotel(Hotel hotel) {
+      instance.setHotel(hotel);
+      return this;
+    }
+
+    public Builder setApartmentNumber(String number) {
+      instance.setApartmentNumber(number);
+      return this;
+    }
+
+    public Builder setReservationDay(List<Long> reservationDay) {
+      instance.setReservationDay(reservationDay);
+      return this;
+    }
+
+    public Builder setReservationId(String reservationId) {
+      instance.setReservationId(reservationId);
+      return this;
+    }
+
+    public Reservation build() {
+      return instance;
+    }
+  }
 }

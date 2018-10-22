@@ -84,7 +84,7 @@ public class ServiceImplTest {
 
     Reservation reservation = reservationService.retrieveReservation("5bc7340b677aa44e986d19db");
 
-    Assert.assertEquals(reservation.getReservationId().toString(), "5bc7340b677aa44e986d19db");
+    Assert.assertEquals(reservation.getReservationId(), "5bc7340b677aa44e986d19db");
   }
 
   @Test
