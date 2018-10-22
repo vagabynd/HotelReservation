@@ -66,7 +66,8 @@ public class DaoImplTest {
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
     reservationRepository.save(reservationTest);
     Reservation reservation = reservationRepository.findById("5bc7340b677aa44e986d19db").orElse(null);
-    assert reservation != null;
+
+    Assert.assertNotNull(reservation);
     Assert.assertEquals(reservation.getApartmentNumber(), "3");
   }
 

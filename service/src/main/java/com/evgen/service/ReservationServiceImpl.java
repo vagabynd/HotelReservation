@@ -4,14 +4,17 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
 
@@ -44,12 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
     Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsObjectId());
     Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
-    Apartment apartment = hotel.getApartments()
-        .stream()
-        .filter(o -> o.getApartmentNumber().equals(reservationRequest.getApartmentNumber()))
-        .findFirst()
-        .orElse(null);
-    if (apartment == null) throw new ServerWebInputException("Apartment should not be null");
+    validApartment(reservationRequest, hotel);
 
     Reservation reservation = new Reservation(hotel, reservationRequest.getApartmentNumber(), new ObjectId(),
         getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()));
@@ -113,5 +111,15 @@ public class ReservationServiceImpl implements ReservationService {
       e.printStackTrace();
     }
     return null;
+  }
+
+  private void validApartment(ReservationRequest reservationRequest, Hotel hotel) {
+    Optional.ofNullable(hotel)
+        .map(Hotel::getApartments)
+        .orElse(new ArrayList<>())
+        .stream()
+        .filter(o -> o.getApartmentNumber().equals(reservationRequest.getApartmentNumber()))
+        .findFirst()
+        .orElseThrow(() -> new ServerWebInputException("Apartment should not be null"));
   }
 }

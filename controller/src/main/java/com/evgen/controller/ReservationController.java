@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.service.ReservationService;
@@ -33,8 +34,8 @@ public class ReservationController {
   @PostMapping("/reservations")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public void createReservation(@RequestBody ReservationRequest reservationRequest) {
-    reservationService.createReservation(reservationRequest);
+  public Guest createReservation(@RequestBody ReservationRequest reservationRequest) {
+    return reservationService.createReservation(reservationRequest);
   }
 
   @GetMapping("/reservations/{id}")
@@ -47,15 +48,16 @@ public class ReservationController {
   @PutMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
-  public void updateReservation(@PathVariable("id") ObjectId reservationId, @RequestBody ReservationRequest reservationRequest) {
-    reservationService.updateReservation(reservationId, reservationRequest);
+  public Guest updateReservation(@PathVariable("id") ObjectId reservationId,
+      @RequestBody ReservationRequest reservationRequest) {
+    return reservationService.updateReservation(reservationId, reservationRequest);
   }
 
   @DeleteMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void deleteReservation(@PathVariable("id") ObjectId id,
+  public Guest deleteReservation(@PathVariable("id") ObjectId id,
       @RequestHeader(value = "guestId") ObjectId guestId) {
-    reservationService.deleteReservation(id, guestId);
+    return reservationService.deleteReservation(id, guestId);
   }
 }
