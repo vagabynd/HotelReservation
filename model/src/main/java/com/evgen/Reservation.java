@@ -26,6 +26,10 @@ public class Reservation {
 
   private List<Long> reservationDay;
 
+  private String startReservationDay;
+
+  private String endReservationDay;
+
   public Reservation() {
   }
 
@@ -59,6 +63,22 @@ public class Reservation {
 
   public void setApartmentNumber(String apartmentNumber) {
     this.apartmentNumber = apartmentNumber;
+  }
+
+  public String getStartReservationDay() {
+    return startReservationDay;
+  }
+
+  public void setStartReservationDay(String startReservationDay) {
+    this.startReservationDay = startReservationDay;
+  }
+
+  public String getEndReservationDay() {
+    return endReservationDay;
+  }
+
+  public void setEndReservationDay(String endReservationDay) {
+    this.endReservationDay = endReservationDay;
   }
 
   public static Builder builder() {
@@ -97,6 +117,16 @@ public class Reservation {
 
     public Builder setReservationId(String reservationId) {
       instance.setReservationId(reservationId);
+      return this;
+    }
+
+    public Builder setStartReservationDay(String startReservationDay) {
+      instance.setStartReservationDay(startReservationDay);
+      return this;
+    }
+
+    public Builder setEndReservationDay(String endReservationDay) {
+      instance.setEndReservationDay(endReservationDay);
       return this;
     }
 

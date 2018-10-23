@@ -20,7 +20,6 @@ import com.mongodb.MongoClientURI;
 @EnableMongoRepositories(basePackages = "com.evgen.dao")
 @ComponentScan(basePackages = "com.evgen.dao")
 @PropertySource("classpath:dbTest.properties")
-@EnableTransactionManagement
 public class DaoImplTestConfig extends AbstractMongoConfiguration {
 
   @Value("${reservations.url}")

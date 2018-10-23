@@ -51,6 +51,8 @@ public class ReservationServiceImpl implements ReservationService {
         .setReservationId(new ObjectId().toString())
         .setHotel(hotel)
         .setApartmentNumber(reservationRequest.getApartmentNumber())
+        .setStartReservationDay(reservationRequest.getStartReservationData())
+        .setEndReservationDay(reservationRequest.getEndReservationData())
         .setReservationDay(
             getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData())
         )
