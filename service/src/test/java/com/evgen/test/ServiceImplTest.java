@@ -104,7 +104,7 @@ public class ServiceImplTest {
         .readValue(getClass().getResourceAsStream(RESERVATION_REQUEST), ReservationRequest.class);
     Guest guestReturn = reservationService.createReservation(reservationRequest);
 
-    Assert.assertEquals(guestReturn.getReservations().size(), 2);
+    Assert.assertEquals(guestReturn.getReservations().size(), 1);
   }
 
   @Test

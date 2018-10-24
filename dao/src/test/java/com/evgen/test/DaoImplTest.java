@@ -19,6 +19,7 @@ import com.evgen.Reservation;
 import com.evgen.config.DaoImplTestConfig;
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
+import com.evgen.dao.ReservationDaoImpl;
 import com.evgen.dao.ReservationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,12 +30,15 @@ public class DaoImplTest {
   private static final Logger LOGGER = LogManager.getLogger(DaoImplTest.class);
   private static final String RESERVATIONS = "/Reservation.json";
   private static final String RESERVATIONS_EXIST = "/ReservationExist.json";
+
   @Autowired
   GuestRepository guestRepository;
   @Autowired
   HotelRepository hotelRepository;
   @Autowired
   ReservationRepository reservationRepository;
+  @Autowired
+  ReservationDaoImpl reservationDao;
   @Autowired
   ObjectMapper objectMapper;
 
@@ -79,7 +83,7 @@ public class DaoImplTest {
   }
 
   @Test
-  public void getHotelByName() {
+  public void getHotelByNameTest() {
     LOGGER.debug("test: get hotel by name");
 
     Hotel test = hotelRepository.findByHotelName("TestHotel");
@@ -87,10 +91,23 @@ public class DaoImplTest {
   }
 
   @Test
-  public void getGuests() {
+  public void getGuestsTest() {
     LOGGER.debug("test: get all guest");
 
     List<Guest> guests = guestRepository.findAll();
     Assert.assertEquals(guests.size(), 1);
+  }
+
+  @Test
+  public void addReservationToGuestTest() throws IOException {
+    LOGGER.debug("test: add reservation to guest");
+
+    Guest guest = guestRepository.findByGuestId("5bc70e09677aa47db3942744");
+    Reservation reservation = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
+    reservationDao.addReservationToGuest("5bc70e09677aa47db3942744", reservation);
+    Guest guestAdd = guestRepository.findByGuestId("5bc70e09677aa47db3942744");
+
+    Assert.assertEquals(guest.getReservations().size() + 1, guestAdd.getReservations().size());
   }
 }

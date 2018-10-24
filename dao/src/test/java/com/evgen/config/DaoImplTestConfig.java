@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClient;
@@ -41,7 +40,7 @@ public class DaoImplTestConfig extends AbstractMongoConfiguration {
 
   @Override
   protected Collection<String> getMappingBasePackages() {
-    return Collections.singleton("com.evgen");
+    return Collections.singleton("com.com.evgen");
   }
 
   @Bean

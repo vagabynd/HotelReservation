@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +22,7 @@ import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
+import com.evgen.dao.ReservationDaoImpl;
 import com.evgen.dao.ReservationRepository;
 
 @Service
@@ -31,45 +31,28 @@ public class ReservationServiceImpl implements ReservationService {
   private final GuestRepository guestRepository;
   private final HotelRepository hotelRepository;
   private final ReservationRepository reservationRepository;
+  private final ReservationDaoImpl reservationDao;
 
   @Autowired
   public ReservationServiceImpl(GuestRepository guestRepository, HotelRepository hotelRepository,
-      ReservationRepository reservationRepository) {
+      ReservationRepository reservationRepository, ReservationDaoImpl reservationDao) {
     this.guestRepository = guestRepository;
     this.hotelRepository = hotelRepository;
     this.reservationRepository = reservationRepository;
+    this.reservationDao = reservationDao;
   }
 
   @Override
   public Guest createReservation(ReservationRequest reservationRequest) {
-    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsString());
     Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
     validApartment(reservationRequest, hotel);
+    Reservation reservation = createReservationBuild(reservationRequest, hotel);
 
-    Reservation reservation = Reservation.builder()
-        .setReservationId(new ObjectId().toString())
-        .setHotel(hotel)
-        .setApartmentNumber(reservationRequest.getApartmentNumber())
-        .setStartReservationDay(reservationRequest.getStartReservationData())
-        .setEndReservationDay(reservationRequest.getEndReservationData())
-        .setReservationDay(
-            getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData())
-        )
-        .build();
-
-    List<Reservation> newReservations = Optional.ofNullable(guest.getReservations())
-        .map(list -> {
-          list.add(reservation);
-          return list;
-        })
-        .orElse(Arrays.asList(reservation));
-    guest.setReservations(newReservations);
-
-    guestRepository.save(guest);
+    reservationDao.addReservationToGuest(reservationRequest.getGuestId(), reservation);
     reservationRepository.save(reservation);
 
-    return guest;
+    return guestRepository.findByGuestId(reservationRequest.getGuestId());
   }
 
   @Override
@@ -83,37 +66,16 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest updateReservation(String reservationId, ReservationRequest reservationRequest) {
-    Guest guest = guestRepository.findByGuestId(reservationRequest.getGuestIdAsString());
-    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
+    reservationRepository.save(updateReservationBuild(reservationId, reservationRequest));
 
-    Reservation reservation = retrieveReservation(reservationId).updater()
-        .setHotel(hotel)
-        .setApartmentNumber(reservationRequest.getApartmentNumber())
-        .setReservationDay(
-            getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()))
-        .build();
-
-    reservationRepository.save(reservation);
-
-    return guest;
+    return guestRepository.findByGuestId(reservationRequest.getGuestIdAsString());
   }
 
   @Override
   public Guest deleteReservation(String id, String guestId) {
-    Guest guest = guestRepository.findByGuestId(guestId);
-
-    List<Reservation> reservations = Optional.ofNullable(guest.getReservations())
-        .map(list -> list
-            .stream()
-            .filter(o -> !o.getReservationId().equals(id))
-            .collect(Collectors.toList()))
-        .orElseThrow(() -> new RuntimeException("there are no reservation"));
-    guest.setReservations(reservations);
-
-    guestRepository.save(guest);
     reservationRepository.deleteByReservationId(id);
 
-    return guest;
+    return deleteReservationFromGuestReservations(id, guestId);
   }
 
   private List<Long> getReservationDay(String startReservationDate, String endReservationDate) {
@@ -128,9 +90,8 @@ public class ReservationServiceImpl implements ReservationService {
       }
       return reservationDay;
     } catch (ParseException e) {
-      e.printStackTrace();
+      throw new RuntimeException("Bad date format");
     }
-    return null;
   }
 
   private void validApartment(ReservationRequest reservationRequest, Hotel hotel) {
@@ -141,5 +102,43 @@ public class ReservationServiceImpl implements ReservationService {
         .filter(o -> o.getApartmentNumber().equals(reservationRequest.getApartmentNumber()))
         .findFirst()
         .orElseThrow(() -> new ServerWebInputException("Apartment should not be null"));
+  }
+
+  private Reservation createReservationBuild(ReservationRequest reservationRequest, Hotel hotel) {
+    return Reservation.builder()
+        .setReservationId(new ObjectId().toString())
+        .setHotel(hotel)
+        .setApartmentNumber(reservationRequest.getApartmentNumber())
+        .setStartReservationDay(reservationRequest.getStartReservationData())
+        .setEndReservationDay(reservationRequest.getEndReservationData())
+        .setReservationDay(
+            getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData())
+        )
+        .build();
+  }
+
+  private Reservation updateReservationBuild(String reservationId, ReservationRequest reservationRequest) {
+    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
+
+    return retrieveReservation(reservationId).updater()
+        .setHotel(hotel)
+        .setApartmentNumber(reservationRequest.getApartmentNumber())
+        .setReservationDay(
+            getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()))
+        .build();
+  }
+
+  private Guest deleteReservationFromGuestReservations(String id, String guestId) {
+    Guest guest = guestRepository.findByGuestId(guestId);
+    List<Reservation> reservations = Optional.ofNullable(guest.getReservations())
+        .map(list -> list
+            .stream()
+            .filter(o -> !o.getReservationId().equals(id))
+            .collect(Collectors.toList()))
+        .orElseThrow(() -> new RuntimeException("there are no reservation"));
+    guest.setReservations(reservations);
+    guestRepository.save(guest);
+
+    return guest;
   }
 }
