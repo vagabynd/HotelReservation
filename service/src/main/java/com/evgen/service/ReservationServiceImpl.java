@@ -73,13 +73,14 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest deleteReservation(String id, String guestId) {
+    Guest guest = deleteReservationFromGuestReservations(id, guestId);
     reservationRepository.deleteByReservationId(id);
 
-    return deleteReservationFromGuestReservations(id, guestId);
+    return guest;
   }
 
   private List<Long> getReservationDay(String startReservationDate, String endReservationDate) {
-    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     try {
       Date startDate = format.parse(startReservationDate);
       Date endDate = format.parse(endReservationDate);
