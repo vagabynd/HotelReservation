@@ -33,6 +33,10 @@ public class Reservation {
   public Reservation() {
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
   public List<Long> getReservationDay() {
     return reservationDay;
   }
@@ -81,15 +85,12 @@ public class Reservation {
     this.endReservationDay = endReservationDay;
   }
 
-  public static Builder builder() {
-    return new Builder();
-  }
-
   public Builder updater() {
     return new Builder(this);
   }
 
   public static class Builder {
+
     private Reservation instance;
 
     Builder() {

@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
@@ -47,10 +46,11 @@ public class ReservationServiceImpl implements ReservationService {
     Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
     validApartment(reservationRequest, hotel);
-    Reservation reservation = createReservationBuild(reservationRequest, hotel);
 
-    reservationDao.addReservationToGuest(reservationRequest.getGuestId(), reservation);
-    reservationRepository.save(reservation);
+    Reservation reservation = createReservationBuild(reservationRequest, hotel);
+    Reservation reservationWithId = reservationRepository.save(reservation);
+
+    reservationDao.addReservationToGuest(reservationRequest.getGuestId(), reservationWithId);
 
     return guestRepository.findByGuestId(reservationRequest.getGuestId());
   }
@@ -107,7 +107,6 @@ public class ReservationServiceImpl implements ReservationService {
 
   private Reservation createReservationBuild(ReservationRequest reservationRequest, Hotel hotel) {
     return Reservation.builder()
-        .setReservationId(new ObjectId().toString())
         .setHotel(hotel)
         .setApartmentNumber(reservationRequest.getApartmentNumber())
         .setStartReservationDay(reservationRequest.getStartReservationData())
@@ -126,6 +125,8 @@ public class ReservationServiceImpl implements ReservationService {
         .setApartmentNumber(reservationRequest.getApartmentNumber())
         .setReservationDay(
             getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()))
+        .setStartReservationDay(reservationRequest.getStartReservationData())
+        .setEndReservationDay(reservationRequest.getEndReservationData())
         .build();
   }
 
