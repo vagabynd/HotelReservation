@@ -28,6 +28,7 @@
     <junit.version>4.12</junit.version>
     <easymock.version>3.4</easymock.version>
     <validation-api.version>2.0.0.Final</validation-api.version>
+    <apache.commons.vesrion>3.2.1</apache.commons.vesrion>
   </properties>
 
   <dependencyManagement>
@@ -154,6 +155,12 @@
         <artifactId>easymock</artifactId>
         <version>${easymock.version}</version>
         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${apache.commons.vesrion}</version>
       </dependency>
 
     </dependencies>

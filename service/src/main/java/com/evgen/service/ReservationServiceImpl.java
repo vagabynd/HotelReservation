@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebInputException;
@@ -43,22 +44,15 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest createReservation(ReservationRequest reservationRequest) {
-    Hotel hotel = hotelRepository.findByHotelName(
-        Optional.ofNullable(reservationRequest)
-            .map(ReservationRequest::getHotelName)
-            .orElseThrow(() -> new ServerWebInputException("hotelName should not be null"))
-    );
+    validationReservationRequest(reservationRequest);
+    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
     validApartment(reservationRequest, hotel);
 
     Reservation reservation = createReservationBuild(reservationRequest, hotel);
     Reservation reservationWithId = reservationRepository.save(reservation);
 
-    reservationDao.addReservationToGuest(reservationWithId,
-        Optional.of(reservationRequest)
-            .map(ReservationRequest::getGuestId)
-            .orElseThrow(() -> new ServerWebInputException("guestId should not be null"))
-    );
+    reservationDao.addReservationToGuest(reservationWithId, reservationRequest.getGuestId());
 
     return guestRepository.findByGuestId(reservationRequest.getGuestId());
   }
@@ -74,13 +68,10 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest updateReservation(String reservationId, ReservationRequest reservationRequest) {
+    validationReservationRequest(reservationRequest);
     reservationRepository.save(updateReservationBuild(reservationId, reservationRequest));
 
-    return guestRepository.findByGuestId(
-        Optional.of(reservationRequest)
-            .map(ReservationRequest::getGuestId)
-            .orElseThrow(() -> new ServerWebInputException("guestId should not be null"))
-    );
+    return guestRepository.findByGuestId(reservationRequest.getGuestId());
   }
 
   @Override
@@ -120,21 +111,9 @@ public class ReservationServiceImpl implements ReservationService {
   private Reservation createReservationBuild(ReservationRequest reservationRequest, Hotel hotel) {
     return Reservation.builder()
         .setHotel(hotel)
-        .setApartmentNumber(
-            Optional.ofNullable(reservationRequest)
-                .map(ReservationRequest::getApartmentNumber)
-                .orElseThrow(() -> new ServerWebInputException("apartmentNumber should not be null"))
-        )
-        .setStartReservationDay(
-            Optional.of(reservationRequest)
-                .map(ReservationRequest::getStartReservationData)
-                .orElseThrow(() -> new ServerWebInputException("startReservationData should not be null"))
-        )
-        .setEndReservationDay(
-            Optional.of(reservationRequest)
-                .map(ReservationRequest::getEndReservationData)
-                .orElseThrow(() -> new ServerWebInputException("endReservationData should not be null"))
-        )
+        .setApartmentNumber(reservationRequest.getApartmentNumber())
+        .setStartReservationDay(reservationRequest.getStartReservationData())
+        .setEndReservationDay(reservationRequest.getEndReservationData())
         .setReservationDay(
             getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData())
         )
@@ -146,21 +125,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     return retrieveReservation(reservationId).updater()
         .setHotel(hotel)
-        .setApartmentNumber(
-            Optional.of(reservationRequest)
-                .map(ReservationRequest::getApartmentNumber)
-                .orElseThrow(() -> new ServerWebInputException("apartmentNumber should not be null"))
-        )
-        .setStartReservationDay(
-            Optional.of(reservationRequest)
-                .map(ReservationRequest::getStartReservationData)
-                .orElseThrow(() -> new ServerWebInputException("startReservationData should not be null"))
-        )
-        .setEndReservationDay(
-            Optional.of(reservationRequest)
-                .map(ReservationRequest::getEndReservationData)
-                .orElseThrow(() -> new ServerWebInputException("endReservationData should not be null"))
-        )
+        .setApartmentNumber(reservationRequest.getApartmentNumber())
+        .setStartReservationDay(reservationRequest.getStartReservationData())
+        .setEndReservationDay(reservationRequest.getEndReservationData())
         .setReservationDay(
             getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()))
         .build();
@@ -179,5 +146,15 @@ public class ReservationServiceImpl implements ReservationService {
     guestRepository.save(guest);
 
     return guest;
+  }
+
+  private void validationReservationRequest(ReservationRequest reservationRequest) {
+    if (StringUtils.isBlank(reservationRequest.getApartmentNumber())
+        || StringUtils.isBlank(reservationRequest.getStartReservationData())
+        || StringUtils.isBlank(reservationRequest.getEndReservationData())
+        || StringUtils.isBlank(reservationRequest.getGuestId())
+        || StringUtils.isBlank(reservationRequest.getHotelName())) {
+      throw new ServerWebInputException("Bad reservation request");
+    }
   }
 }
