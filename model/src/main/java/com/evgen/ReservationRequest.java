@@ -43,10 +43,6 @@ public class ReservationRequest {
     this.hotelName = hotelName;
   }
 
-  public String getGuestIdAsString() {
-    return guestId;
-  }
-
   public String getStartReservationData() {
     return startReservationData;
   }

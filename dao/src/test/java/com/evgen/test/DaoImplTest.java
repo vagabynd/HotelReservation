@@ -105,7 +105,7 @@ public class DaoImplTest {
     Guest guest = guestRepository.findByGuestId("5bc70e09677aa47db3942744");
     Reservation reservation = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
-    reservationDao.addReservationToGuest("5bc70e09677aa47db3942744", reservation);
+    reservationDao.addReservationToGuest(reservation,"5bc70e09677aa47db3942744");
     Guest guestAdd = guestRepository.findByGuestId("5bc70e09677aa47db3942744");
 
     Assert.assertEquals(guest.getReservations().size() + 1, guestAdd.getReservations().size());
