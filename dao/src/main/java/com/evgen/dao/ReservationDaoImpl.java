@@ -25,11 +25,7 @@ public class ReservationDaoImpl {
   }
 
   public UpdateResult addReservationToGuest(Reservation reservation, String guestId) {
-    Update update = new Update().push("reservations",
-        Optional.of(reservation)
-            .map(Reservation::getReservationId)
-            .orElseThrow(() -> new ServerWebInputException("guestId should not be null"))
-    );
+    Update update = new Update().push("reservations",reservation.getReservationId());
     Query query = new Query(Criteria.where("_id").is(guestId));
 
     return mongoTemplate.updateFirst(query, update, Guest.class);

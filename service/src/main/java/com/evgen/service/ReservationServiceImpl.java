@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
     validationReservationRequest(reservationRequest);
     Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
 
-    validApartment(reservationRequest, hotel);
+    validationApartment(reservationRequest, hotel);
 
     Reservation reservation = createReservationBuild(reservationRequest, hotel);
     Reservation reservationWithId = reservationRepository.save(reservation);
@@ -98,16 +98,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
   }
 
-  private void validApartment(ReservationRequest reservationRequest, Hotel hotel) {
-    Optional.ofNullable(hotel)
-        .map(Hotel::getApartments)
-        .orElse(new ArrayList<>())
-        .stream()
-        .filter(o -> o.getApartmentNumber().equals(reservationRequest.getApartmentNumber()))
-        .findFirst()
-        .orElseThrow(() -> new ServerWebInputException("Apartment should not be null"));
-  }
-
   private Reservation createReservationBuild(ReservationRequest reservationRequest, Hotel hotel) {
     return Reservation.builder()
         .setHotel(hotel)
@@ -146,6 +136,16 @@ public class ReservationServiceImpl implements ReservationService {
     guestRepository.save(guest);
 
     return guest;
+  }
+
+  private void validationApartment(ReservationRequest reservationRequest, Hotel hotel) {
+    Optional.ofNullable(hotel)
+        .map(Hotel::getApartments)
+        .orElse(new ArrayList<>())
+        .stream()
+        .filter(o -> o.getApartmentNumber().equals(reservationRequest.getApartmentNumber()))
+        .findFirst()
+        .orElseThrow(() -> new ServerWebInputException("Apartment should not be null"));
   }
 
   private void validationReservationRequest(ReservationRequest reservationRequest) {
