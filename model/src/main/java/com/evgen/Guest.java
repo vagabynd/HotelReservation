@@ -14,6 +14,8 @@ public class Guest {
 
   private String name;
 
+  private String password;
+
   @DBRef
   private List<Reservation> reservations;
 
@@ -23,6 +25,14 @@ public class Guest {
   public Guest(String guestId, List<Reservation> reservations) {
     this.guestId = guestId;
     this.reservations = reservations;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public String getGuestId() {
