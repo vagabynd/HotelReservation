@@ -41,7 +41,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
     return Collections.singleton("com.com.evgen");
   }
 
-
   @Bean
   public MongoTemplate mongoTemplate() {
     return new MongoTemplate(mongoClient(), "hotel_management");

@@ -10,7 +10,7 @@ public interface ReservationService {
 
   Reservation retrieveReservation(String id);
 
-  Guest updateReservation(String reservationId,ReservationRequest reservationRequest);
+  Guest updateReservation(String reservationId, ReservationRequest reservationRequest);
 
   Guest deleteReservation(String id, String guestId);
 
