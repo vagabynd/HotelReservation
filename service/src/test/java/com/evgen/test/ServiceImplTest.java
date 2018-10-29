@@ -6,9 +6,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -24,11 +21,11 @@ import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
+import com.evgen.ReservationService;
 import com.evgen.config.ServiceImplTestConf;
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
 import com.evgen.dao.ReservationRepository;
-import com.evgen.service.ReservationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -74,12 +71,10 @@ public class ServiceImplTest {
   public void retrieveReservationTest() throws Exception {
     LOGGER.debug("test: retrieve reservation");
 
-    List<Reservation> reservations = new ArrayList<>();
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
-    reservations.add(reservationTest);
 
-    expect(reservationRepositoryMock.findAll()).andReturn(reservations);
+    expect(reservationRepositoryMock.findByReservationId("5bc7340b677aa44e986d19db")).andReturn(reservationTest);
     replay(reservationRepositoryMock);
 
     Reservation reservation = reservationService.retrieveReservation("5bc7340b677aa44e986d19db");
@@ -130,15 +125,13 @@ public class ServiceImplTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
 
-    List<Reservation> reservations = new ArrayList<>();
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
-    reservations.add(reservationTest);
 
     expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
     expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
     expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
-    expect(reservationRepositoryMock.findAll()).andReturn(reservations);
+    expect(reservationRepositoryMock.findByReservationId("5bc7340b677aa44e986d19db")).andReturn(reservationTest);
     replay(guestRepositoryMock, hotelRepositoryMock, reservationRepositoryMock);
 
     ReservationRequest updateReservationRequest = objectMapper

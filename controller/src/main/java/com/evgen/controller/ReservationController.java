@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.service.ReservationService;
+import com.evgen.ReservationService;
 
 @CrossOrigin
 @RestController

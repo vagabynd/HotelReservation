@@ -29,7 +29,7 @@ import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.config.ControllerMockTestConf;
-import com.evgen.service.ReservationService;
+import com.evgen.ReservationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)

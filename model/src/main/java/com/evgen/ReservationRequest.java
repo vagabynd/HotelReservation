@@ -71,27 +71,27 @@ public class ReservationRequest {
       this.instance = new ReservationRequest();
     }
 
-    public Builder setGuestId(String guestId) {
+    public Builder guestId(String guestId) {
       instance.setGuestId(guestId);
       return this;
     }
 
-    public Builder setApartmentNumber(String apartmentNumber) {
+    public Builder apartmentNumber(String apartmentNumber) {
       instance.setApartmentNumber(apartmentNumber);
       return this;
     }
 
-    public Builder setHotelName(String hotelName) {
+    public Builder hotelName(String hotelName) {
       instance.setHotelName(hotelName);
       return this;
     }
 
-    public Builder setStartReservationData(String startReservationData) {
+    public Builder startReservationData(String startReservationData) {
       instance.setStartReservationData(startReservationData);
       return this;
     }
 
-    public Builder setEndReservationData(String endReservationData) {
+    public Builder endReservationData(String endReservationData) {
       instance.setEndReservationData(endReservationData);
       return this;
     }

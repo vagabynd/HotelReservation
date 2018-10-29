@@ -101,32 +101,32 @@ public class Reservation {
       this.instance = instance;
     }
 
-    public Builder setHotel(Hotel hotel) {
+    public Builder hotel(Hotel hotel) {
       instance.setHotel(hotel);
       return this;
     }
 
-    public Builder setApartmentNumber(String number) {
+    public Builder apartmentNumber(String number) {
       instance.setApartmentNumber(number);
       return this;
     }
 
-    public Builder setReservationDay(List<Long> reservationDay) {
+    public Builder reservationDay(List<Long> reservationDay) {
       instance.setReservationDay(reservationDay);
       return this;
     }
 
-    public Builder setReservationId(String reservationId) {
+    public Builder reservationId(String reservationId) {
       instance.setReservationId(reservationId);
       return this;
     }
 
-    public Builder setStartReservationDay(String startReservationDay) {
+    public Builder startReservationDay(String startReservationDay) {
       instance.setStartReservationDay(startReservationDay);
       return this;
     }
 
-    public Builder setEndReservationDay(String endReservationDay) {
+    public Builder endReservationDay(String endReservationDay) {
       instance.setEndReservationDay(endReservationDay);
       return this;
     }

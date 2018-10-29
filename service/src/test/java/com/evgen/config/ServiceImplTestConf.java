@@ -8,7 +8,7 @@ import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
 import com.evgen.dao.ReservationDaoImpl;
 import com.evgen.dao.ReservationRepository;
-import com.evgen.service.ReservationService;
+import com.evgen.ReservationService;
 import com.evgen.service.ReservationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

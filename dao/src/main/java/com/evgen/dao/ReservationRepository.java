@@ -12,4 +12,6 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
 
   List<Reservation> deleteByReservationId(String reservationId);
 
+  Reservation findByReservationId(String reservationId);
+
 }
