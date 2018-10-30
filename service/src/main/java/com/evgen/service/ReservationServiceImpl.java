@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerWebInputException;
 
 import com.evgen.Guest;
 import com.evgen.Hotel;
@@ -46,7 +47,8 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest createReservation(ReservationRequest reservationRequest) {
-    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
+    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName())
+        .orElseThrow(() -> new ServerWebInputException("Incorrect hotelName"));
 
     ApartmentsValidator.validationApartment(reservationRequest, hotel);
 
@@ -55,19 +57,22 @@ public class ReservationServiceImpl implements ReservationService {
 
     reservationDao.addReservationToGuest(reservationWithId, reservationRequest.getGuestId());
 
-    return guestRepository.findByGuestId(reservationRequest.getGuestId());
+    return guestRepository.findByGuestId(reservationRequest.getGuestId())
+        .orElseThrow(() -> new ServerWebInputException("Incorrect guestId"));
   }
 
   @Override
   public Reservation retrieveReservation(String id) {
-    return reservationRepository.findByReservationId(id);
+    return reservationRepository.findByReservationId(id)
+        .orElseThrow(() -> new ServerWebInputException("Incorrect reservationId"));
   }
 
   @Override
   public Guest updateReservation(String reservationId, ReservationRequest reservationRequest) {
     reservationRepository.save(buildUpdateReservation(reservationId, reservationRequest));
 
-    return guestRepository.findByGuestId(reservationRequest.getGuestId());
+    return guestRepository.findByGuestId(reservationRequest.getGuestId())
+        .orElseThrow(() -> new ServerWebInputException("Incorrect guestId"));
   }
 
   @Override
@@ -107,7 +112,8 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   private Reservation buildUpdateReservation(String reservationId, ReservationRequest reservationRequest) {
-    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName());
+    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName())
+        .orElseThrow(() -> new ServerWebInputException("Incorrect hotelName"));
 
     return retrieveReservation(reservationId).updater()
         .hotel(hotel)
@@ -120,7 +126,8 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   private Guest deleteReservationFromGuestReservations(String id, String guestId) {
-    Guest guest = guestRepository.findByGuestId(guestId);
+    Guest guest = guestRepository.findByGuestId(guestId)
+        .orElseThrow(() -> new ServerWebInputException("Incorrect guestId"));
     List<Reservation> reservations = getReservations(id, guest);
 
     guest.setReservations(reservations);

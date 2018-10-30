@@ -86,7 +86,7 @@ public class DaoImplTest {
   public void getHotelByNameTest() {
     LOGGER.debug("test: get hotel by name");
 
-    Hotel test = hotelRepository.findByHotelName("TestHotel");
+    Hotel test = hotelRepository.findByHotelName("TestHotel").orElse(new Hotel());
     Assert.assertEquals(test.getHotelName(), "TestHotel");
   }
 
@@ -102,11 +102,11 @@ public class DaoImplTest {
   public void addReservationToGuestTest() throws IOException {
     LOGGER.debug("test: add reservation to guest");
 
-    Guest guest = guestRepository.findByGuestId("5bc70e09677aa47db3942744");
+    Guest guest = guestRepository.findByGuestId("5bc70e09677aa47db3942744").orElse(new Guest());
     Reservation reservation = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
     reservationDao.addReservationToGuest(reservation, "5bc70e09677aa47db3942744");
-    Guest guestAdd = guestRepository.findByGuestId("5bc70e09677aa47db3942744");
+    Guest guestAdd = guestRepository.findByGuestId("5bc70e09677aa47db3942744").orElse(new Guest());
 
     Assert.assertEquals(guest.getReservations().size() + 1, guestAdd.getReservations().size());
   }

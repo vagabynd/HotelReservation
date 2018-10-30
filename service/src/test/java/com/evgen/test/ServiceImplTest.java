@@ -6,11 +6,15 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
+import java.util.Optional;
+import java.util.OptionalInt;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +78,7 @@ public class ServiceImplTest {
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
 
-    expect(reservationRepositoryMock.findByReservationId("5bc7340b677aa44e986d19db")).andReturn(reservationTest);
+    expect(reservationRepositoryMock.findByReservationId("5bc7340b677aa44e986d19db")).andReturn(Optional.of(reservationTest));
     replay(reservationRepositoryMock);
 
     Reservation reservation = reservationService.retrieveReservation("5bc7340b677aa44e986d19db");
@@ -89,8 +93,8 @@ public class ServiceImplTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
     Hotel hotel = objectMapper.readValue(getClass().getResourceAsStream(HOTEL), Hotel.class);
 
-    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
-    expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
+    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(Optional.of(guest));
+    expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(Optional.of(hotel));
     expect(guestRepositoryMock.save(guest)).andReturn(guest);
     expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
     replay(hotelRepositoryMock, guestRepositoryMock, reservationRepositoryMock);
@@ -107,8 +111,7 @@ public class ServiceImplTest {
     LOGGER.debug("test: delete reservation");
 
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
-
-    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
+    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(Optional.of(guest));
     expect(guestRepositoryMock.save(guest)).andReturn(guest);
     replay(guestRepositoryMock);
 
@@ -128,10 +131,10 @@ public class ServiceImplTest {
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
 
-    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(guest);
-    expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(hotel);
+    expect(guestRepositoryMock.findByGuestId("5bc449c09ddbcd660ac58f07")).andReturn(Optional.of(guest));
+    expect(hotelRepositoryMock.findByHotelName("Abc")).andReturn(Optional.of(hotel));
     expect(reservationRepositoryMock.save(anyObject())).andReturn(new Reservation());
-    expect(reservationRepositoryMock.findByReservationId("5bc7340b677aa44e986d19db")).andReturn(reservationTest);
+    expect(reservationRepositoryMock.findByReservationId("5bc7340b677aa44e986d19db")).andReturn(Optional.of(reservationTest));
     replay(guestRepositoryMock, hotelRepositoryMock, reservationRepositoryMock);
 
     ReservationRequest updateReservationRequest = objectMapper

@@ -1,6 +1,7 @@
 package com.evgen.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,6 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
 
   List<Reservation> deleteByReservationId(String reservationId);
 
-  Reservation findByReservationId(String reservationId);
+  Optional<Reservation> findByReservationId(String reservationId);
 
 }
