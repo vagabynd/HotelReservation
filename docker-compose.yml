@@ -1,0 +1,24 @@
+version: "2.1"
+services:
+  hotel-reservation:
+    container_name: hotel-reservation
+    image: jetty
+    ports:
+      - "8888:8080"
+    volumes:
+      - "./targetDeploy:/var/lib/jetty/webapps"
+  hotel-availability:
+    container_name: hotel-availability
+    image: jetty
+    ports:
+      - "8890:8080"
+    volumes:
+      - "/home/yauheni_rotar/Documents/Projects/AvailabilityHotelReservation/targetDeploy:/var/lib/jetty/webapps"
+
+  hotel-view:
+    container_name: hotel-view
+    image: jetty
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/home/yauheni_rotar/Documents/Projects/HotelView/targetDeploy:/var/lib/jetty/webapps"

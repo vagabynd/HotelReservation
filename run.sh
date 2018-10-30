@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-mvn clean install
-cd  controller/
-mvn jetty:run
+
+current=`pwd`
+docker run --rm -d --name hotel-reservation --hostname hotel-reservation -p 8888:8080 -v ${current}/targetDeploy:/var/lib/jetty/webapps jetty
