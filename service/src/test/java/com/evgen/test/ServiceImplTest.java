@@ -1,6 +1,5 @@
 package com.evgen.test;
 
-import static com.sun.javaws.JnlpxArgs.verify;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -10,7 +9,6 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,11 +56,6 @@ public class ServiceImplTest {
 
   @Autowired
   private ReservationRepository reservationRepositoryMock;
-
-  @After
-  public void clean() {
-    verify();
-  }
 
   @Before
   public void setUp() {
