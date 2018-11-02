@@ -21,7 +21,6 @@ import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.ReservationService;
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
 import com.evgen.dao.ReservationDaoImpl;

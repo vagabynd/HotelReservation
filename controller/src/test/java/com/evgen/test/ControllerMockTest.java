@@ -1,6 +1,7 @@
 package com.evgen.test;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -17,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,11 +31,12 @@ import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.config.ControllerMockTestConf;
-import com.evgen.ReservationService;
+import com.evgen.service.ReservationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ControllerMockTestConf.class)
+@SpringBootTest
 @WebAppConfiguration
 public class ControllerMockTest {
 
@@ -104,7 +107,7 @@ public class ControllerMockTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
-        .createReservation(anyObject()))
+        .createReservation(anyObject(ReservationRequest.class)))
         .andReturn(guest);
     replay(reservationService);
 
@@ -124,7 +127,7 @@ public class ControllerMockTest {
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
 
     expect(reservationService
-        .updateReservation(anyObject(), anyObject()))
+        .updateReservation(anyString(), anyObject(ReservationRequest.class)))
         .andReturn(guest);
     replay(reservationService);
 

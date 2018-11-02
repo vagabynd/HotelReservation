@@ -9,22 +9,21 @@ import org.springframework.stereotype.Component;
 
 import com.evgen.Guest;
 import com.evgen.Reservation;
-import com.mongodb.client.result.UpdateResult;
 
 @Component
 public class ReservationDaoImpl {
 
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
   @Autowired
   public ReservationDaoImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
   }
 
-  public UpdateResult addReservationToGuest(Reservation reservation, String guestId) {
+  public void addReservationToGuest(Reservation reservation, String guestId) {
     Update update = new Update().push("reservations", reservation.getReservationId());
     Query query = new Query(Criteria.where("_id").is(guestId));
 
-    return mongoTemplate.updateFirst(query, update, Guest.class);
+    mongoTemplate.updateFirst(query, update, Guest.class);
   }
 }

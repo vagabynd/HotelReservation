@@ -1,23 +1,22 @@
 package com.evgen.test;
 
+import static com.sun.javaws.JnlpxArgs.verify;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.verify;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -25,7 +24,7 @@ import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.ReservationService;
+import com.evgen.service.ReservationService;
 import com.evgen.config.ServiceImplTestConf;
 import com.evgen.dao.GuestRepository;
 import com.evgen.dao.HotelRepository;
@@ -33,6 +32,7 @@ import com.evgen.dao.ReservationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 @ContextConfiguration(classes = ServiceImplTestConf.class)
 public class ServiceImplTest {
 

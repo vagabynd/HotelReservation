@@ -1,4 +1,8 @@
-package com.evgen;
+package com.evgen.service;
+
+import com.evgen.Guest;
+import com.evgen.Reservation;
+import com.evgen.ReservationRequest;
 
 public interface ReservationService {
 
