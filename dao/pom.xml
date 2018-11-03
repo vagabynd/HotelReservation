@@ -26,15 +26,22 @@
   </build>
 
   <dependencies>
-      <dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
 
+
+
     <dependency>
       <groupId>com.com.evgen</groupId>
       <artifactId>model</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.com.evgen</groupId>
+      <artifactId>dao-api</artifactId>
     </dependency>
   </dependencies>
 </project>

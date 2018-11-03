@@ -2,24 +2,10 @@ package com.evgen;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
-@CompoundIndexes({
-    @CompoundIndex(name = "name3",
-        unique = true,
-        def = "{'apartmentNumber' : 2, 'reservationDay' : 2, 'hotel' : 1}")
-})
 public class Reservation {
 
-  @Id
   private String reservationId;
 
-  @DBRef
   private Hotel hotel;
 
   private String apartmentNumber;

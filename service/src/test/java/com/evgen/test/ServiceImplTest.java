@@ -3,7 +3,6 @@ package com.evgen.test;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.reset;
 
 import java.util.Optional;
 
@@ -24,9 +23,6 @@ import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.service.ReservationService;
 import com.evgen.config.ServiceImplTestConf;
-import com.evgen.dao.GuestRepository;
-import com.evgen.dao.HotelRepository;
-import com.evgen.dao.ReservationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)

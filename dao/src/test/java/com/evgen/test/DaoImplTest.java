@@ -18,10 +18,7 @@ import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.config.DaoImplTestConfig;
-import com.evgen.dao.GuestRepository;
-import com.evgen.dao.HotelRepository;
 import com.evgen.dao.ReservationDaoImpl;
-import com.evgen.dao.ReservationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)

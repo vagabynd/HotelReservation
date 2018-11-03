@@ -1,29 +1,43 @@
 package com.evgen.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.evgen.Guest;
+import com.evgen.Hotel;
 import com.evgen.Reservation;
 
 @Component
-public class ReservationDaoImpl {
-
-  private final MongoTemplate mongoTemplate;
+public class ReservationDaoImpl implements ReservationDao {
 
   @Autowired
-  public ReservationDaoImpl(MongoTemplate mongoTemplate) {
-    this.mongoTemplate = mongoTemplate;
+  public ReservationDaoImpl( ) {
+  }
+
+  @Override
+  public Optional<Guest> findByGuestId(String guestId) {
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Hotel> findByHotelName(String hotelName) {
+    return Optional.empty();
+  }
+
+  @Override
+  public List<Reservation> deleteByReservationId(String reservationId) {
+    return null;
+  }
+
+  @Override
+  public Optional<Reservation> findByReservationId(String reservationId) {
+    return Optional.empty();
   }
 
   public void addReservationToGuest(Reservation reservation, String guestId) {
-    Update update = new Update().push("reservations", reservation.getReservationId());
-    Query query = new Query(Criteria.where("_id").is(guestId));
 
-    mongoTemplate.updateFirst(query, update, Guest.class);
   }
 }

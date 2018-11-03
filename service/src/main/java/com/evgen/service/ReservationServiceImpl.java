@@ -21,10 +21,7 @@ import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.dao.GuestRepository;
-import com.evgen.dao.HotelRepository;
 import com.evgen.dao.ReservationDaoImpl;
-import com.evgen.dao.ReservationRepository;
 import com.evgen.validator.ApartmentsValidator;
 
 @Service
