@@ -10,6 +10,11 @@ public class Hotel {
 
   private List<Apartment> apartments;
 
+  public Hotel(String hotelId, String hotelName) {
+    this.hotelId = hotelId;
+    this.hotelName = hotelName;
+  }
+
   public String getHotelId() {
     return hotelId;
   }

@@ -1,17 +1,16 @@
 package com.evgen.service;
 
-import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 
 public interface ReservationService {
 
-  Guest createReservation(ReservationRequest reservationRequest);
+  Integer createReservation(ReservationRequest reservationRequest);
 
-  Reservation retrieveReservation(String id);
+  Reservation retrieveReservation(Integer id);
 
-  Guest updateReservation(String reservationId, ReservationRequest reservationRequest);
+  Integer updateReservation(Integer reservationId, ReservationRequest reservationRequest);
 
-  Guest deleteReservation(String id, String guestId);
+  Integer deleteReservation(String id, String guestId);
 
 }

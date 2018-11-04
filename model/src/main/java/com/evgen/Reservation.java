@@ -19,6 +19,14 @@ public class Reservation {
   public Reservation() {
   }
 
+  public Reservation(String reservationId, Hotel hotel, String apartmentNumber, String startReservationDay, String endReservationDay) {
+    this.reservationId = reservationId;
+    this.hotel = hotel;
+    this.apartmentNumber = apartmentNumber;
+    this.startReservationDay = startReservationDay;
+    this.endReservationDay = endReservationDay;
+  }
+
   public static Builder builder() {
     return new Builder();
   }

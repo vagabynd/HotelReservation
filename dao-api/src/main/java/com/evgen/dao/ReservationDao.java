@@ -1,22 +1,15 @@
 package com.evgen.dao;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.evgen.Guest;
-import com.evgen.Hotel;
 import com.evgen.Reservation;
 
 public interface ReservationDao {
 
-  Optional<Guest> findByGuestId(String guestId);
+  Reservation retrieveReservation(Integer reservationId);
 
-  Optional<Hotel> findByHotelName(String hotelName);
+  Integer createReservation(String guestId, Reservation reservation);
 
-  List<Reservation> deleteByReservationId(String reservationId);
+  Integer updateReservation(Reservation reservation);
 
-  Optional<Reservation> findByReservationId(String reservationId);
-
-  void addReservationToGuest(Reservation reservation, String guestId);
+  Integer deleteReservation(String reservationId);
 
 }

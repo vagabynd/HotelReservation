@@ -22,9 +22,3 @@ VALUES (1, 4, 1),
        (10, 3, 3),
        (11, 2, 3),
        (12, 1, 4);
-
-INSERT INTO reservation (reservation_id, guest_id, apartment_id, res_days)
-VALUES (1, 1, 2, ARRAY[10, 11, 12]),
-       (2, 1, 2, ARRAY[10, 11, 12, 13]),
-       (3, 1, 3, ARRAY[16, 17, 18, 19]),
-       (4, 2, 8, ARRAY[1, 2, 3]);

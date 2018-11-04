@@ -26,6 +26,8 @@ CREATE TABLE reservation (
   guest_id        INT            NOT NULL,
   apartment_id    INT            NOT NULL,
   res_days        INT[]          NOT NULL,
+  start_res_day   VARCHAR(255)   NOT NULL,
+  end_res_day     VARCHAR(255)   NOT NULL,
   EXCLUDE USING gist( res_days WITH &&, apartment_id with =),
   FOREIGN KEY (guest_id) REFERENCES guest(guest_id) ON DELETE CASCADE ,
   FOREIGN KEY (apartment_id) REFERENCES apartment(apartment_id) ON DELETE CASCADE

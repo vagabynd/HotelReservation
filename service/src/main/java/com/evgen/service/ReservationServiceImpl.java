@@ -7,76 +7,45 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ServerWebInputException;
 
-import com.evgen.Guest;
-import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.dao.ReservationDaoImpl;
-import com.evgen.validator.ApartmentsValidator;
+import com.evgen.dao.ReservationDao;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-  private final GuestRepository guestRepository;
-  private final HotelRepository hotelRepository;
-  private final ReservationRepository reservationRepository;
-  private final ReservationDaoImpl reservationDao;
+  private final ReservationDao reservationDao;
 
   @Autowired
-  public ReservationServiceImpl(GuestRepository guestRepository, HotelRepository hotelRepository,
-      ReservationRepository reservationRepository, ReservationDaoImpl reservationDao) {
-    this.guestRepository = guestRepository;
-    this.hotelRepository = hotelRepository;
-    this.reservationRepository = reservationRepository;
+  public ReservationServiceImpl(ReservationDao reservationDao) {
     this.reservationDao = reservationDao;
   }
 
   @Override
-  public Guest createReservation(ReservationRequest reservationRequest) {
-    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName())
-        .orElseThrow(() -> new ServerWebInputException("Incorrect hotelName"));
+  public Integer createReservation(ReservationRequest reservationRequest) {
+    Reservation reservation = buildCreateReservation(reservationRequest);
 
-    ApartmentsValidator.validationApartment(reservationRequest, hotel);
-
-    Reservation reservation = buildCreateReservation(reservationRequest, hotel);
-    Reservation reservationWithId = reservationRepository.save(reservation);
-
-    reservationDao.addReservationToGuest(reservationWithId, reservationRequest.getGuestId());
-
-    return guestRepository.findByGuestId(reservationRequest.getGuestId())
-        .orElseThrow(() -> new ServerWebInputException("Incorrect guestId"));
+    return reservationDao.createReservation(reservationRequest.getGuestId(),reservation);
   }
 
   @Override
-  public Reservation retrieveReservation(String id) {
-    return reservationRepository.findByReservationId(id)
-        .orElseThrow(() -> new ServerWebInputException("Incorrect reservationId"));
+  public Reservation retrieveReservation(Integer id) {
+    return reservationDao.retrieveReservation(id);
   }
 
   @Override
-  public Guest updateReservation(String reservationId, ReservationRequest reservationRequest) {
-    reservationRepository.save(buildUpdateReservation(reservationId, reservationRequest));
-
-    return guestRepository.findByGuestId(reservationRequest.getGuestId())
-        .orElseThrow(() -> new ServerWebInputException("Incorrect guestId"));
+  public Integer updateReservation(Integer reservationId, ReservationRequest reservationRequest) {
+    return reservationDao.updateReservation(buildUpdateReservation(reservationId, reservationRequest));
   }
 
   @Override
-  public Guest deleteReservation(String id, String guestId) {
-    Guest guest = deleteReservationFromGuestReservations(id, guestId);
-    reservationRepository.deleteByReservationId(id);
-
-    return guest;
+  public Integer deleteReservation(String id, String guestId) {
+    return reservationDao.deleteReservation(id);
   }
 
   private List<Long> getReservationDay(String startReservationDate, String endReservationDate) {
@@ -95,9 +64,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
   }
 
-  private Reservation buildCreateReservation(ReservationRequest reservationRequest, Hotel hotel) {
+  private Reservation buildCreateReservation(ReservationRequest reservationRequest) {
     return Reservation.builder()
-        .hotel(hotel)
         .apartmentNumber(reservationRequest.getApartmentNumber())
         .startReservationDay(reservationRequest.getStartReservationData())
         .endReservationDay(reservationRequest.getEndReservationData())
@@ -107,37 +75,13 @@ public class ReservationServiceImpl implements ReservationService {
         .build();
   }
 
-  private Reservation buildUpdateReservation(String reservationId, ReservationRequest reservationRequest) {
-    Hotel hotel = hotelRepository.findByHotelName(reservationRequest.getHotelName())
-        .orElseThrow(() -> new ServerWebInputException("Incorrect hotelName"));
-
+  private Reservation buildUpdateReservation(Integer reservationId, ReservationRequest reservationRequest) {
     return retrieveReservation(reservationId).updater()
-        .hotel(hotel)
         .apartmentNumber(reservationRequest.getApartmentNumber())
         .startReservationDay(reservationRequest.getStartReservationData())
         .endReservationDay(reservationRequest.getEndReservationData())
         .reservationDay(
             getReservationDay(reservationRequest.getStartReservationData(), reservationRequest.getEndReservationData()))
         .build();
-  }
-
-  private Guest deleteReservationFromGuestReservations(String id, String guestId) {
-    Guest guest = guestRepository.findByGuestId(guestId)
-        .orElseThrow(() -> new ServerWebInputException("Incorrect guestId"));
-    List<Reservation> reservations = getReservations(id, guest);
-
-    guest.setReservations(reservations);
-    guestRepository.save(guest);
-
-    return guest;
-  }
-
-  private List<Reservation> getReservations(String id, Guest guest) {
-    return Optional.ofNullable(guest)
-        .map(Guest::getReservations)
-        .map(List::stream)
-        .orElse(Stream.empty())
-        .filter(reservation -> !StringUtils.equals(reservation.getReservationId(), id))
-        .collect(Collectors.toList());
   }
 }
