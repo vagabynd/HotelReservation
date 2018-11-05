@@ -26,6 +26,13 @@ public class Guest {
     this.reservations = reservations;
   }
 
+  public Guest(String guestId, String name, String password, List<Reservation> reservations) {
+    this.guestId = guestId;
+    this.name = name;
+    this.password = password;
+    this.reservations = reservations;
+  }
+
   public String getPassword() {
     return password;
   }

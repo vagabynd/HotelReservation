@@ -11,7 +11,7 @@ VALUES (1, 'Abc'),
 
 INSERT INTO apartment (apartment_id, room_count, hotel_id)
 VALUES (1, 4, 1),
-       (2, 2, 1),
+       (2, 2, 2),
        (3, 3, 1),
        (4, 2, 1),
        (5, 3, 2),

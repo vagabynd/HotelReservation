@@ -6,6 +6,11 @@ public class Apartment {
 
   private String roomCount;
 
+  public Apartment(String apartmentNumber, String roomCount) {
+    this.apartmentNumber = apartmentNumber;
+    this.roomCount = roomCount;
+  }
+
   public String getApartmentNumber() {
     return apartmentNumber;
   }

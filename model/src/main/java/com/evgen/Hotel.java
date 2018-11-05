@@ -15,6 +15,12 @@ public class Hotel {
     this.hotelName = hotelName;
   }
 
+  public Hotel(String hotelId, String hotelName, List<Apartment> apartments) {
+    this.hotelId = hotelId;
+    this.hotelName = hotelName;
+    this.apartments = apartments;
+  }
+
   public String getHotelId() {
     return hotelId;
   }

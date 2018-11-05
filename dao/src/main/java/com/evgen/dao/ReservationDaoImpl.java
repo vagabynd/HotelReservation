@@ -1,25 +1,20 @@
 package com.evgen.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.evgen.Guest;
-import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationDao;
 import com.evgen.mapper.GuestRowMapper;
 import com.evgen.mapper.ReservationRowMapper;
 
-@Component
+@Repository
 @PropertySource(value = "classpath:sql.properties")
 public class ReservationDaoImpl implements ReservationDao {
 
@@ -50,7 +45,6 @@ public class ReservationDaoImpl implements ReservationDao {
   @Autowired
   public ReservationDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
     this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-
   }
 
   @Override
