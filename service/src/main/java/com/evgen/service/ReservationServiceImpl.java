@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.dao.ReservationDao;
@@ -27,7 +28,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public Integer createReservation(ReservationRequest reservationRequest) {
+  public Guest createReservation(ReservationRequest reservationRequest) {
     Reservation reservation = buildCreateReservation(reservationRequest);
 
     return reservationDao.createReservation(reservationRequest.getGuestId(),reservation);
@@ -39,12 +40,12 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public Integer updateReservation(Integer reservationId, ReservationRequest reservationRequest) {
+  public Guest updateReservation(Integer reservationId, ReservationRequest reservationRequest) {
     return reservationDao.updateReservation(buildUpdateReservation(reservationId, reservationRequest));
   }
 
   @Override
-  public Integer deleteReservation(String id, String guestId) {
+  public Guest deleteReservation(String id, String guestId) {
     return reservationDao.deleteReservation(id);
   }
 

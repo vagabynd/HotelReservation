@@ -49,11 +49,12 @@ public class ReservationDaoImpl implements ReservationDao {
   public Reservation retrieveReservation(Integer reservationId) {
     MapSqlParameterSource namedParameters = new MapSqlParameterSource(RESERVATION_ID, reservationId);
 
-    return namedParameterJdbcTemplate.queryForObject(getReservationByIdSql, namedParameters, new ReservationRowMapper());
+    return namedParameterJdbcTemplate
+        .queryForObject(getReservationByIdSql, namedParameters, new ReservationRowMapper());
   }
 
   @Override
-  public Integer createReservation(String guestId, Reservation reservation) {
+  public Guest createReservation(String guestId, Reservation reservation) {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
     parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
@@ -62,27 +63,27 @@ public class ReservationDaoImpl implements ReservationDao {
     parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
     parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
 
-    return namedParameterJdbcTemplate.queryForObject(createReservationSql, parameterSource, Integer.class);
+    return namedParameterJdbcTemplate.queryForObject(createReservationSql, parameterSource, new GuestRowMapper());
   }
 
   @Override
-  public Integer updateReservation(Reservation reservation) {
+  public Guest updateReservation(Reservation reservation) {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
-    parameterSource.addValue(RESERVATION_ID, reservation.getReservationId());
-    parameterSource.addValue(APARTMENT_ID, reservation.getApartmentNumber());
-    parameterSource.addValue(RES_DAYS, reservation.getReservationDay());
+    parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservation.getReservationId()));
+    parameterSource.addValue(APARTMENT_ID, Integer.parseInt(reservation.getApartmentNumber()));
+    parameterSource.addValue(RES_DAYS, reservation.getReservationDay().stream().mapToInt(Math::toIntExact).toArray());
     parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
     parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
 
-    return namedParameterJdbcTemplate.update(updateReservationSql, parameterSource);
+    return namedParameterJdbcTemplate.queryForObject(updateReservationSql, parameterSource, new GuestRowMapper());
   }
 
   @Override
-  public Integer deleteReservation(String reservationId) {
-    MapSqlParameterSource namedParameters = new MapSqlParameterSource(RESERVATION_ID, reservationId);
+  public Guest deleteReservation(String reservationId) {
+    MapSqlParameterSource namedParameters = new MapSqlParameterSource(RESERVATION_ID, Integer.parseInt(reservationId));
 
-    return namedParameterJdbcTemplate.update(deleteReservationSql, namedParameters);
+    return namedParameterJdbcTemplate.queryForObject(deleteReservationSql, namedParameters, new GuestRowMapper());
   }
 
   private class ReservationRowMapper implements RowMapper<Reservation> {
@@ -91,8 +92,8 @@ public class ReservationDaoImpl implements ReservationDao {
       return new Reservation(
           resultSet.getString("reservation_id"),
           new Hotel(
-          resultSet.getString("hotel_id"),
-          resultSet.getString("hotel_name")
+              resultSet.getString("hotel_id"),
+              resultSet.getString("hotel_name")
           ),
           resultSet.getString("apartment_id"),
           resultSet.getString("start_res_day"),
@@ -102,14 +103,12 @@ public class ReservationDaoImpl implements ReservationDao {
 
   }
 
-
   private class GuestRowMapper implements RowMapper<Guest> {
 
     public Guest mapRow(ResultSet resultSet, int i) throws SQLException {
       Guest guest = new Guest(
           resultSet.getString("guest_id"),
           resultSet.getString("name"),
-          resultSet.getString("password"),
           new ArrayList<>()
       );
 

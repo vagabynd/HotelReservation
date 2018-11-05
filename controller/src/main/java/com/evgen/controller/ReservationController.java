@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.service.ReservationService;
@@ -32,7 +33,7 @@ public class ReservationController {
   @PostMapping("/reservations")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public Integer createReservation(@RequestBody ReservationRequest reservationRequest) {
+  public Guest createReservation(@RequestBody ReservationRequest reservationRequest) {
     return reservationService.createReservation(reservationRequest);
   }
 
@@ -46,7 +47,7 @@ public class ReservationController {
   @PutMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.ACCEPTED)
   @ResponseBody
-  public Integer updateReservation(@PathVariable("id") Integer reservationId,
+  public Guest updateReservation(@PathVariable("id") Integer reservationId,
       @RequestBody ReservationRequest reservationRequest) {
     return reservationService.updateReservation(reservationId, reservationRequest);
   }
@@ -54,7 +55,7 @@ public class ReservationController {
   @DeleteMapping("/reservations/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Integer deleteReservation(@PathVariable("id") String id,
+  public Guest deleteReservation(@PathVariable("id") String id,
       @RequestHeader(value = "guestId") String guestId) {
     return reservationService.deleteReservation(id, guestId);
   }
