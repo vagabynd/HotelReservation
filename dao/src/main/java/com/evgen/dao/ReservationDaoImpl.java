@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import com.evgen.Guest;
 import com.evgen.Hotel;
 import com.evgen.Reservation;
+import com.evgen.ReservationDao;
+import com.evgen.mapper.GuestRowMapper;
+import com.evgen.mapper.ReservationRowMapper;
 
 @Component
 @PropertySource(value = "classpath:sql.properties")
@@ -98,52 +101,4 @@ public class ReservationDaoImpl implements ReservationDao {
 
     return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
   }
-
-  private class ReservationRowMapper implements RowMapper<Reservation> {
-
-    public Reservation mapRow(ResultSet resultSet, int i) throws SQLException {
-      return new Reservation(
-          resultSet.getString("reservation_id"),
-          new Hotel(
-              resultSet.getString("hotel_id"),
-              resultSet.getString("hotel_name")
-          ),
-          resultSet.getString("apartment_id"),
-          resultSet.getString("start_res_day"),
-          resultSet.getString("end_res_day")
-      );
-    }
-
-  }
-
-  private class GuestRowMapper implements RowMapper<Guest> {
-
-    public Guest mapRow(ResultSet resultSet, int i) throws SQLException {
-      Guest guest = new Guest(
-          resultSet.getString("guest_id"),
-          resultSet.getString("name"),
-          new ArrayList<>()
-      );
-
-      if (resultSet.getObject("reservation_id", Integer.class) == null) {
-        return guest;
-      }
-
-      do {
-        guest.getReservations().add(new Reservation(
-            resultSet.getString("reservation_id"),
-            new Hotel(
-                resultSet.getString("hotel_id"),
-                resultSet.getString("hotel_name")
-            ),
-            resultSet.getString("apartment_id"),
-            resultSet.getString("start_res_day"),
-            resultSet.getString("end_res_day")
-        ));
-      } while (resultSet.next());
-
-      return guest;
-    }
-  }
 }
-

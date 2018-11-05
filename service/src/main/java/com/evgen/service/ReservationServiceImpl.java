@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
-import com.evgen.dao.ReservationDao;
+import com.evgen.ReservationDao;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {

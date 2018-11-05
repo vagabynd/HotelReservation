@@ -4,7 +4,7 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //
-//import com.evgen.dao.ReservationDaoImpl;
+//import ReservationDaoImpl;
 //import com.evgen.service.ReservationService;
 //import com.evgen.service.ReservationServiceImpl;
 //import com.fasterxml.jackson.databind.ObjectMapper;

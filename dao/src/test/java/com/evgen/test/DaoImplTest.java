@@ -17,7 +17,7 @@
 //import com.evgen.Guest;
 //import com.evgen.Hotel;
 //import com.evgen.Reservation;
-//import com.evgen.dao.ReservationDaoImpl;
+//import ReservationDaoImpl;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //
 //@RunWith(SpringJUnit4ClassRunner.class)

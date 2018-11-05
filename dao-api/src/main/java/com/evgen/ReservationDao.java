@@ -1,4 +1,4 @@
-package com.evgen.dao;
+package com.evgen;
 
 import com.evgen.Guest;
 import com.evgen.Reservation;
