@@ -9,8 +9,8 @@ public interface ReservationDao {
 
   Guest createReservation(String guestId, Reservation reservation);
 
-  Guest updateReservation(Reservation reservation);
+  Guest updateReservation(Reservation reservation, String guestId);
 
-  Guest deleteReservation(String reservationId);
+  Guest deleteReservation(String reservationId, String guestId);
 
 }

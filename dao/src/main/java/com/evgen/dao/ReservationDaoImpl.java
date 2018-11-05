@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,6 +17,7 @@ import com.evgen.Hotel;
 import com.evgen.Reservation;
 
 @Component
+@PropertySource(value = "classpath:sql.properties")
 public class ReservationDaoImpl implements ReservationDao {
 
   private static final String GUEST_ID = "guestId";
@@ -36,6 +38,9 @@ public class ReservationDaoImpl implements ReservationDao {
 
   @Value("${ReservationDaoSql.deleteReservation}")
   private String deleteReservationSql;
+
+  @Value("${ReservationDaoSql.getGuestById}")
+  private String getGuestSql;
 
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -63,27 +68,35 @@ public class ReservationDaoImpl implements ReservationDao {
     parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
     parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
 
-    return namedParameterJdbcTemplate.queryForObject(createReservationSql, parameterSource, new GuestRowMapper());
+    namedParameterJdbcTemplate.update(createReservationSql, parameterSource);
+    return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
   }
 
   @Override
-  public Guest updateReservation(Reservation reservation) {
+  public Guest updateReservation(Reservation reservation, String guestId) {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
+    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
     parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservation.getReservationId()));
     parameterSource.addValue(APARTMENT_ID, Integer.parseInt(reservation.getApartmentNumber()));
     parameterSource.addValue(RES_DAYS, reservation.getReservationDay().stream().mapToInt(Math::toIntExact).toArray());
     parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
     parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
 
-    return namedParameterJdbcTemplate.queryForObject(updateReservationSql, parameterSource, new GuestRowMapper());
+    namedParameterJdbcTemplate.update(updateReservationSql, parameterSource);
+    return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
   }
 
   @Override
-  public Guest deleteReservation(String reservationId) {
-    MapSqlParameterSource namedParameters = new MapSqlParameterSource(RESERVATION_ID, Integer.parseInt(reservationId));
+  public Guest deleteReservation(String reservationId, String guestId) {
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
-    return namedParameterJdbcTemplate.queryForObject(deleteReservationSql, namedParameters, new GuestRowMapper());
+    parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservationId));
+    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
+
+    namedParameterJdbcTemplate.update(deleteReservationSql, parameterSource);
+
+    return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
   }
 
   private class ReservationRowMapper implements RowMapper<Reservation> {

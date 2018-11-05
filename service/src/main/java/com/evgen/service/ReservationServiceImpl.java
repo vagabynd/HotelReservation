@@ -41,12 +41,14 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public Guest updateReservation(Integer reservationId, ReservationRequest reservationRequest) {
-    return reservationDao.updateReservation(buildUpdateReservation(reservationId, reservationRequest));
+    Reservation reservation = buildUpdateReservation(reservationId, reservationRequest);
+
+    return reservationDao.updateReservation(reservation, reservationRequest.getGuestId());
   }
 
   @Override
   public Guest deleteReservation(String id, String guestId) {
-    return reservationDao.deleteReservation(id);
+    return reservationDao.deleteReservation(id, guestId);
   }
 
   private List<Long> getReservationDay(String startReservationDate, String endReservationDate) {
