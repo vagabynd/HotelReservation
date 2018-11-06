@@ -15,12 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.evgen.Guest;
-import com.evgen.Hotel;
 import com.evgen.Reservation;
 import com.evgen.ReservationDao;
 import com.evgen.ReservationRequest;
@@ -36,7 +34,6 @@ public class ServiceImplTest {
 
   private static final String GUEST = "/Guest-with-reservations.json";
   private static final String RESERVATION_REQUEST = "/Reservation-request.json";
-  private static final String HOTEL = "/Hotel.json";
   private static final String UPDATE_RESERVATION_REQUEST = "/Update-reservation-request.json";
   private static final String RESERVATIONS = "/Reservations.json";
 

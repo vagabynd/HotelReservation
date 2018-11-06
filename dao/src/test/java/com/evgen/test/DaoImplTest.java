@@ -35,7 +35,8 @@ public class DaoImplTest {
   @Autowired
   ReservationDao reservationDao;
 
-  private ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired
+  ObjectMapper objectMapper;
 
   @Test
   public void saveReservationTest() throws IOException {
