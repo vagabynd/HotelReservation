@@ -1,6 +1,7 @@
 package com.evgen;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Hotel {
 
@@ -9,6 +10,9 @@ public class Hotel {
   private String hotelName;
 
   private List<Apartment> apartments;
+
+  public Hotel() {
+  }
 
   public Hotel(String hotelId, String hotelName) {
     this.hotelId = hotelId;
@@ -43,5 +47,23 @@ public class Hotel {
 
   public void setApartments(List<Apartment> apartments) {
     this.apartments = apartments;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Hotel hotel = (Hotel) o;
+    return Objects.equals(hotelId, hotel.hotelId) &&
+        Objects.equals(hotelName, hotel.hotelName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(hotelId, hotelName);
   }
 }

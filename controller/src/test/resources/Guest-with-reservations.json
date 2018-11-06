@@ -1,9 +1,9 @@
 {
-  "guestId": "5bc449c09ddbcd660ac58f07",
+  "guestId": "5",
   "name": "sergei",
   "reservations": [
     {
-      "reservationId": "5bc7340b677aa44e986d19db",
+      "reservationId": "5",
       "hotel": {
       },
       "apartmentNumber": "2"

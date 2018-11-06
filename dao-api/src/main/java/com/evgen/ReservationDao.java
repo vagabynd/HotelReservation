@@ -1,8 +1,5 @@
 package com.evgen;
 
-import com.evgen.Guest;
-import com.evgen.Reservation;
-
 public interface ReservationDao {
 
   Reservation retrieveReservation(Integer reservationId);

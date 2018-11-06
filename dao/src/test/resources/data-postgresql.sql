@@ -22,3 +22,6 @@ VALUES (1, 4, 1),
        (10, 3, 4),
        (11, 2, 3),
        (12, 1, 4);
+
+INSERT INTO reservation (guest_id, apartment_id, res_days, start_res_day, end_res_day)
+VALUES (1, 1, (1,2,3), '2015-10-10', '2015-10-13');

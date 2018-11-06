@@ -1,25 +1,7 @@
 {
-  "reservationId": "5bc7340b677aa44e986d19dc",
-  "hotel": {
-    "hotelId": "5bc7340b677aa44e986d19db",
-    "hotelName": "Abc",
-    "apartments": [
-      {
-        "apartmentNumber": "1",
-        "roomCount": "4"
-      },
-      {
-        "apartmentNumber": "2",
-        "roomCount": "3"
-      },
-      {
-        "apartmentNumber": "3",
-        "roomCount": "2"
-      }
-    ]
-  },
-  "apartmentNumber": "3",
-  "reservationDay": [
-    18179
-  ]
+  "reservationId": "5",
+  "apartmentNumber": "2",
+  "reservationDay": [1, 2, 3],
+  "startReservationDay": "2014-10-10",
+  "endReservationDay": "2014-10-11"
 }

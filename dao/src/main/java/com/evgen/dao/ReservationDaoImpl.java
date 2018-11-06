@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.evgen.Guest;
 import com.evgen.Reservation;
@@ -16,6 +16,7 @@ import com.evgen.mapper.ReservationRowMapper;
 
 @Repository
 @PropertySource(value = "classpath:sql.properties")
+@Transactional
 public class ReservationDaoImpl implements ReservationDao {
 
   private static final String GUEST_ID = "guestId";
@@ -49,10 +50,9 @@ public class ReservationDaoImpl implements ReservationDao {
 
   @Override
   public Reservation retrieveReservation(Integer reservationId) {
-    MapSqlParameterSource namedParameters = new MapSqlParameterSource(RESERVATION_ID, reservationId);
-
     return namedParameterJdbcTemplate
-        .queryForObject(getReservationByIdSql, namedParameters, new ReservationRowMapper());
+        .queryForObject(getReservationByIdSql, new MapSqlParameterSource(RESERVATION_ID, reservationId),
+            new ReservationRowMapper());
   }
 
   @Override

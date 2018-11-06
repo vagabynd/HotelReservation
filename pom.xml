@@ -29,10 +29,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-    <jackson.databind-version>2.9.7</jackson.databind-version>
     <easymock.version>3.4</easymock.version>
-    <validation-api.version>2.0.0.Final</validation-api.version>
     <sping-boot.version>2.1.0.RELEASE</sping-boot.version>
+    <postgresql.verison>42.2.5</postgresql.verison>
   </properties>
 
   <dependencyManagement>
@@ -109,7 +108,7 @@
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
-        <version>42.2.5</version>
+        <version>${postgresql.verison}</version>
       </dependency>
 
       <dependency>
@@ -117,7 +116,6 @@
         <artifactId>spring-boot-starter-jdbc</artifactId>
         <version>${sping-boot.version}</version>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
 

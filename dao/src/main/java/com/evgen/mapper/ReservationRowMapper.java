@@ -13,5 +13,4 @@ public class ReservationRowMapper implements RowMapper<Reservation> {
   public Reservation mapRow(ResultSet resultSet, int i) throws SQLException {
     return ReservationBuilder.buildReservation(resultSet);
   }
-
 }
