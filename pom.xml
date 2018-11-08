@@ -33,6 +33,9 @@
 
   <dependencyManagement>
     <dependencies>
+
+      <!--project-->
+
       <dependency>
         <groupId>com.com.evgen</groupId>
         <artifactId>model</artifactId>
@@ -62,6 +65,8 @@
         <artifactId>controller</artifactId>
         <version>${project.version}</version>
       </dependency>
+
+      <!--spring-->
 
       <dependency>
         <groupId>org.springframework</groupId>
@@ -101,6 +106,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-mongodb</artifactId>
+        <version>${mongodb.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api.version}</version>
@@ -117,12 +128,6 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>${jackson.databind-version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-mongodb</artifactId>
-        <version>${mongodb.version}</version>
       </dependency>
 
       <dependency>
@@ -144,6 +149,14 @@
       </dependency>
 
       <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${apache.commons.vesrion}</version>
+      </dependency>
+
+      <!--test-->
+
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
@@ -157,25 +170,8 @@
         <scope>test</scope>
       </dependency>
 
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>${apache.commons.vesrion}</version>
-      </dependency>
-
     </dependencies>
   </dependencyManagement>
-
-  <repositories>
-    <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <build>
     <pluginManagement>
