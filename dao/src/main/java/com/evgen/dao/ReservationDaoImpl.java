@@ -2,11 +2,9 @@ package com.evgen.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.evgen.Guest;
 import com.evgen.Reservation;
@@ -15,8 +13,6 @@ import com.evgen.mapper.GuestRowMapper;
 import com.evgen.mapper.ReservationRowMapper;
 
 @Repository
-@PropertySource(value = "classpath:sql.properties")
-@Transactional
 public class ReservationDaoImpl implements ReservationDao {
 
   private static final String GUEST_ID = "guestId";
@@ -59,11 +55,7 @@ public class ReservationDaoImpl implements ReservationDao {
   public Guest createReservation(String guestId, Reservation reservation) {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
-    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
-    parameterSource.addValue(APARTMENT_ID, Integer.parseInt(reservation.getApartmentNumber()));
-    parameterSource.addValue(RES_DAYS, reservation.getReservationDay().stream().mapToInt(Math::toIntExact).toArray());
-    parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
-    parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
+    setCreateReservationParams(guestId, reservation, parameterSource);
 
     namedParameterJdbcTemplate.update(createReservationSql, parameterSource);
     return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
@@ -73,12 +65,7 @@ public class ReservationDaoImpl implements ReservationDao {
   public Guest updateReservation(Reservation reservation, String guestId) {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
-    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
-    parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservation.getReservationId()));
-    parameterSource.addValue(APARTMENT_ID, Integer.parseInt(reservation.getApartmentNumber()));
-    parameterSource.addValue(RES_DAYS, reservation.getReservationDay().stream().mapToInt(Math::toIntExact).toArray());
-    parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
-    parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
+    setUpdateReservationParams(guestId, reservation, parameterSource);
 
     namedParameterJdbcTemplate.update(updateReservationSql, parameterSource);
     return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
@@ -88,11 +75,30 @@ public class ReservationDaoImpl implements ReservationDao {
   public Guest deleteReservation(String reservationId, String guestId) {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
-    parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservationId));
-    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
+    setDeleteReservationParams(reservationId, guestId, parameterSource);
 
     namedParameterJdbcTemplate.update(deleteReservationSql, parameterSource);
 
     return namedParameterJdbcTemplate.queryForObject(getGuestSql, parameterSource, new GuestRowMapper());
+  }
+
+  private void setCreateReservationParams(String guestId, Reservation reservation,
+      MapSqlParameterSource parameterSource) {
+    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
+    parameterSource.addValue(APARTMENT_ID, Integer.parseInt(reservation.getApartmentNumber()));
+    parameterSource.addValue(RES_DAYS, reservation.getReservationDay().stream().mapToInt(Math::toIntExact).toArray());
+    parameterSource.addValue(START_RES_DAY, reservation.getStartReservationDay());
+    parameterSource.addValue(END_RES_DAY, reservation.getEndReservationDay());
+  }
+
+  private void setUpdateReservationParams(String guestId, Reservation reservation,
+      MapSqlParameterSource parameterSource) {
+    setCreateReservationParams(guestId, reservation, parameterSource);
+    parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservation.getReservationId()));
+  }
+
+  private void setDeleteReservationParams(String reservationId, String guestId, MapSqlParameterSource parameterSource) {
+    parameterSource.addValue(RESERVATION_ID, Integer.parseInt(reservationId));
+    parameterSource.addValue(GUEST_ID, Integer.parseInt(guestId));
   }
 }

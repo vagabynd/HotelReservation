@@ -26,6 +26,26 @@
   </build>
 
   <dependencies>
+
+    <!--project-->
+
+    <dependency>
+      <groupId>com.com.evgen</groupId>
+      <artifactId>dao</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.com.evgen</groupId>
+      <artifactId>model</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.com.evgen</groupId>
+      <artifactId>service-api</artifactId>
+    </dependency>
+
+    <!--spring-boot-->
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -42,24 +62,11 @@
       <artifactId>commons-lang3</artifactId>
     </dependency>
 
+    <!--test-->
+
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.com.evgen</groupId>
-      <artifactId>dao</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.com.evgen</groupId>
-      <artifactId>model</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.com.evgen</groupId>
-      <artifactId>service-api</artifactId>
     </dependency>
 
   </dependencies>

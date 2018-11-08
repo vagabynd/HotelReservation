@@ -36,6 +36,7 @@ public class ServiceImplTest {
   private static final String RESERVATION_REQUEST = "/Reservation-request.json";
   private static final String UPDATE_RESERVATION_REQUEST = "/Update-reservation-request.json";
   private static final String RESERVATIONS = "/Reservations.json";
+  private static final String ID = "5";
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -88,11 +89,11 @@ public class ServiceImplTest {
     LOGGER.debug("test: delete reservation");
 
     Guest guest = objectMapper.readValue(getClass().getResourceAsStream(GUEST), Guest.class);
-    expect(reservationDao.deleteReservation("5","5")).andReturn(guest);
+    expect(reservationDao.deleteReservation(ID,ID)).andReturn(guest);
     replay(reservationDao);
 
     Guest guestReturn = reservationService
-        .deleteReservation("5", "5");
+        .deleteReservation(ID, ID);
 
     Assert.assertNotNull(guestReturn);
   }
@@ -105,7 +106,7 @@ public class ServiceImplTest {
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
 
-    expect(reservationDao.updateReservation(reservationTest, "5")).andReturn(guest);
+    expect(reservationDao.updateReservation(reservationTest, ID)).andReturn(guest);
     expect(reservationDao.retrieveReservation(5)).andReturn(reservationTest);
     replay(reservationDao);
 
@@ -116,7 +117,7 @@ public class ServiceImplTest {
 
     Reservation reservationReturn = guestReturn.getReservations()
         .stream()
-        .filter(o -> o.getReservationId().equals("5"))
+        .filter(o -> o.getReservationId().equals(ID))
         .findFirst()
         .orElse(null);
 

@@ -8,12 +8,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +26,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DaoImplTest {
 
   private static final Logger LOGGER = LogManager.getLogger(DaoImplTest.class);
-  private static final String RESERVATIONS = "/Reservation.json";
-  private static final String RESERVATIONS_UPDATE = "/ReservationExist.json";
+  private static final String RESERVATIONS = "/json/Reservation.json";
+  private static final String RESERVATIONS_UPDATE = "/json/ReservationExist.json";
+  private static final String ID = "1";
+  private static final String INCORRECT_ID = "100";
 
   @Autowired
   ReservationDao reservationDao;
@@ -44,10 +43,18 @@ public class DaoImplTest {
 
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
-    Guest guest = reservationDao.createReservation("1", reservationTest);
-    Assert.assertEquals("1", guest.getGuestId());
+    Guest guest = reservationDao.createReservation(ID, reservationTest);
+    Assert.assertEquals(ID, guest.getGuestId());
   }
 
+  @Test(expected = DataIntegrityViolationException.class)
+  public void saveReservationByIncorrectGuestIdTest() throws IOException {
+    LOGGER.debug("test: save reservation by incorrect guest id");
+
+    Reservation reservationTest = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATIONS), Reservation.class);
+    reservationDao.createReservation(INCORRECT_ID, reservationTest);
+  }
 
   @Test
   public void getReservationByIdTest() {
@@ -55,18 +62,38 @@ public class DaoImplTest {
 
     Reservation reservation = reservationDao.retrieveReservation(1);
 
-    LOGGER.debug(reservation.getStartReservationDay());
-
     Assert.assertNotNull(reservation);
-    Assert.assertEquals(reservation.getApartmentNumber(), "1");
+    Assert.assertEquals(reservation.getApartmentNumber(), ID);
+  }
+
+  @Test(expected = EmptyResultDataAccessException.class)
+  public void getReservationByIncorrectIdTest() {
+    LOGGER.debug("test: get reservation by incorrect id");
+
+    reservationDao.retrieveReservation(100);
   }
 
   @Test
   public void deleteReservationByIdTest() {
     LOGGER.debug("test: delete reservation by id");
 
-    Guest guest = reservationDao.deleteReservation("1", "1");
+    Guest guest = reservationDao.deleteReservation(ID, ID);
     Assert.assertEquals(guest.getReservations().size(), 0);
+  }
+
+  @Test
+  public void deleteReservationByIncorrectIdTest() {
+    LOGGER.debug("test: delete reservation by incorrect id");
+
+    Guest guest = reservationDao.deleteReservation(INCORRECT_ID, ID);
+    Assert.assertEquals(guest.getReservations().size(), 1);
+  }
+
+  @Test(expected = EmptyResultDataAccessException.class)
+  public void deleteReservationByIncorrectGuestIdTest() {
+    LOGGER.debug("test: delete reservation by incorrect guest id");
+
+    reservationDao.deleteReservation(ID, INCORRECT_ID);
   }
 
   @Test
@@ -76,9 +103,19 @@ public class DaoImplTest {
     Reservation reservationTest = objectMapper
         .readValue(getClass().getResourceAsStream(RESERVATIONS_UPDATE), Reservation.class);
 
-    Guest guest = reservationDao.updateReservation(reservationTest, "1");
+    Guest guest = reservationDao.updateReservation(reservationTest, ID);
 
     Assert.assertEquals(guest.getReservations().size(), 1);
   }
 
+  @Test(expected = EmptyResultDataAccessException.class)
+  public void updateReservationByIncorrectIdTest() throws IOException {
+    LOGGER.debug("test: update reservation by incorrect id");
+
+    Reservation reservationTest = objectMapper
+        .readValue(getClass().getResourceAsStream(RESERVATIONS_UPDATE), Reservation.class);
+
+    reservationDao.updateReservation(reservationTest, INCORRECT_ID);
+
+  }
 }

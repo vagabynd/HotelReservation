@@ -13,6 +13,39 @@
   <packaging>war</packaging>
 
     <dependencies>
+
+      <!--project-->
+
+      <dependency>
+        <groupId>com.com.evgen</groupId>
+        <artifactId>service-api</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>com.com.evgen</groupId>
+        <artifactId>model</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>com.com.evgen</groupId>
+        <artifactId>dao</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>com.com.evgen</groupId>
+        <artifactId>service</artifactId>
+      </dependency>
+
+      <!--database-->
+
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+      </dependency>
+
+      <!--spring-boot-->
+      <!--test-->
+
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-test</artifactId>
@@ -23,28 +56,6 @@
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
         <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>com.com.evgen</groupId>
-        <artifactId>service-api</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>com.com.evgen</groupId>
-        <artifactId>model</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>com.com.evgen</groupId>
-        <artifactId>dao</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>com.com.evgen</groupId>
-        <artifactId>service</artifactId>
-      </dependency>
-
-      <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
       </dependency>
 
     </dependencies>
