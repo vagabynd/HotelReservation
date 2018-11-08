@@ -33,12 +33,9 @@
       <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
 
-    <!--test-->
-
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>test</scope>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-jdbc</artifactId>
     </dependency>
 
     <dependency>
@@ -47,9 +44,12 @@
       <scope>test</scope>
     </dependency>
 
+    <!--test-->
+
     <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jdbc</artifactId>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
