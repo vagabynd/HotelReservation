@@ -1,6 +1,8 @@
 package com.evgen;
 
-public class Apartment {
+import java.io.Serializable;
+
+public class Apartment implements Serializable {
 
   private String apartmentNumber;
 

@@ -1,12 +1,13 @@
 package com.evgen;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Hotel {
+public class Hotel implements Serializable {
 
   @Id
   private String hotelId;

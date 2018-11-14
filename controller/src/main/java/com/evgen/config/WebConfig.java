@@ -15,8 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
-@Import(MongoConfig.class)
-@ComponentScan(basePackages = "com.evgen.*")
+@ComponentScan(basePackages = "com.evgen")
 public class WebConfig implements WebMvcConfigurer {
 
   @Bean
