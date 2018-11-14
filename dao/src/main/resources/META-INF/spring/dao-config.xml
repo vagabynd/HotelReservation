@@ -1,0 +1,26 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+    http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg ref="mongoClient"/>
+    <constructor-arg name="databaseName" value="hotel_management"/>
+  </bean>
+
+  <!--<context:property-placeholder location="classpath:db.properties"/>-->
+
+  <mongo:mongo-client id="mongoClient" host="mongodb://rotar:rotar2612@ds125683.mlab.com:25683/hotel_management" />
+  <mongo:repositories base-package="com.evgen.dao"/>
+
+  <osgi:service interface="com.evgen.dao.GuestRepository" ref="guestRepository"/>
+  <osgi:service interface="com.evgen.dao.ReservationRepository" ref="reservationRepository"/>
+  <osgi:service interface="com.evgen.dao.HotelRepository" ref="hotelRepository"/>
+
+  <bean class=
+      "org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+</beans>

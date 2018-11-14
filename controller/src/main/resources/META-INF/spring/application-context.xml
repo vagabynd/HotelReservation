@@ -1,0 +1,67 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+    http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+  <context:annotation-config/>
+
+  <jaxrs:server id="restService" address="http://0.0.0.0:8080/">
+    <jaxrs:serviceBeans>
+      <ref bean="reservationController"/>
+    </jaxrs:serviceBeans>
+    <jaxrs:providers>
+      <ref bean="jsonProvider"/>
+    </jaxrs:providers>
+    <jaxrs:features>
+    </jaxrs:features>
+  </jaxrs:server>
+
+  <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
+  <bean id="reservationController" class="com.evgen.controller.ReservationController">
+    <constructor-arg ref="reservationService"/>
+  </bean>
+
+  <bean id="reservationService" class="com.evgen.service.ReservationServiceImpl">
+    <constructor-arg ref="guestRepository"/>
+    <constructor-arg ref="hotelRepository"/>
+    <constructor-arg ref="reservationRepository"/>
+    <constructor-arg ref="reservationDao"/>
+  </bean>
+
+  <osgi:reference id="guestRepository" interface="com.evgen.dao.GuestRepository"
+      bean-name="guestRepository"/>
+  <osgi:reference id="hotelRepository" interface="com.evgen.dao.HotelRepository"
+      bean-name="hotelRepository"/>
+  <osgi:reference id="reservationRepository" interface="com.evgen.dao.ReservationRepository"
+      bean-name="reservationRepository"/>
+
+  <bean id="reservationDao" class="com.evgen.dao.ReservationDaoImpl">
+    <constructor-arg ref="mongoTemplate"/>
+  </bean>
+
+  <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider">
+    <property name="mapper" ref="objectMapper"/>
+  </bean>
+
+  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg ref="mongoClient"/>
+    <constructor-arg name="databaseName" value="hotel_management"/>
+  </bean>
+
+  <!--<context:property-placeholder location="classpath:db.properties"/>-->
+
+  <mongo:mongo-client id="mongoClient" host="mongodb://rotar:rotar2612@ds125683.mlab.com:25683/hotel_management"/>
+
+  <bean class=
+      "org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+</beans>

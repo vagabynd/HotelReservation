@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>controller</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
 
@@ -72,6 +72,16 @@
       <version>1.7.21</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+    </dependency>
+
     <!--test-->
 
     <dependency>
@@ -89,33 +99,63 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
         <configuration>
-          <scanIntervalSeconds>10</scanIntervalSeconds>
-          <webApp>
-            <contextPath>/</contextPath>
-          </webApp>
-          <httpConnector>
-            <port>8888</port>
-          </httpConnector>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>3.3.0</version>
         <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <supportedProjectTypes>
+            <supportedProjectType>jar</supportedProjectType>
+            <supportedProjectType>bundle</supportedProjectType>
+          </supportedProjectTypes>
+          <instructions>
+            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+            <Bundle-SymbolicName>${osgi.bundle.symbolic.name}</Bundle-SymbolicName>
+            <Bundle-Name>${osgi.bundle.name}</Bundle-Name>
+            <Bundle-Vendor>Team</Bundle-Vendor>
+            <Spring-Context>META-INF/spring/application-context.xml</Spring-Context>
+            <Import-Package>
+              com.evgen.dao
+            </Import-Package>
+            <DynamicImport-Package>
+              javax.*,
+              org.springframework.*; version="5.0.8.RELEASE",
+              org.springframework.data.mongodb.*,
+              com.mongodb.client.result.*,
+              com.fasterxml.jackson.*,
+              *
+            </DynamicImport-Package>
+          </instructions>
         </configuration>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
+
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>${java.version.required}</source>
+          <target>${java.version.required}</target>
+          <useIncrementalCompilation>false</useIncrementalCompilation>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 

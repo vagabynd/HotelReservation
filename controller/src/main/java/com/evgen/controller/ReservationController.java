@@ -1,26 +1,30 @@
 package com.evgen.controller;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
 import com.evgen.Guest;
 import com.evgen.Reservation;
 import com.evgen.ReservationRequest;
 import com.evgen.ReservationService;
 
-@CrossOrigin
-@RestController
+@Controller
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Path("/")
 public class ReservationController {
 
   private final ReservationService reservationService;
@@ -30,33 +34,33 @@ public class ReservationController {
     this.reservationService = reservationService;
   }
 
-  @PostMapping("/reservations")
-  @ResponseStatus(HttpStatus.CREATED)
-  @ResponseBody
-  public Guest createReservation(@RequestBody ReservationRequest reservationRequest) {
-    return reservationService.createReservation(reservationRequest);
+  @POST
+  @Path("/reservations")
+  public Response createReservation(ReservationRequest reservationRequest) {
+    Guest guest = reservationService.createReservation(reservationRequest);
+    return Response.status(Status.OK).entity(guest).build();
   }
 
-  @GetMapping("/reservations/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public Reservation retrieveReservation(@PathVariable("id") String id) {
-    return reservationService.retrieveReservation(id);
+  @GET
+  @Path("/reservations/{id}")
+  public Response retrieveReservation(@PathParam("id") String id) {
+    Reservation reservation = reservationService.retrieveReservation(id);
+    return Response.status(Status.OK).entity(reservation).build();
   }
 
-  @PutMapping("/reservations/{id}")
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  @ResponseBody
-  public Guest updateReservation(@PathVariable("id") String reservationId,
-      @RequestBody ReservationRequest reservationRequest) {
-    return reservationService.updateReservation(reservationId, reservationRequest);
+  @PUT
+  @Path("/reservations/{id}")
+  public Response updateReservation(@PathParam("id") String reservationId,
+      ReservationRequest reservationRequest) {
+    Guest guest = reservationService.updateReservation(reservationId, reservationRequest);
+    return Response.status(Status.ACCEPTED).entity(guest).build();
   }
 
-  @DeleteMapping("/reservations/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public Guest deleteReservation(@PathVariable("id") String id,
-      @RequestHeader(value = "guestId") String guestId) {
-    return reservationService.deleteReservation(id, guestId);
+  @DELETE
+  @Path("/reservations/{id}")
+  public Response deleteReservation(@PathParam("id") String id,
+      @HeaderParam(value = "guestId") String guestId) {
+    Guest guest = reservationService.deleteReservation(id, guestId);
+    return Response.status(Status.OK).entity(guest).build();
   }
 }

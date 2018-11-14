@@ -17,17 +17,21 @@
   </modules>
 
   <properties>
+    <cxf-version>3.0.4</cxf-version>
+    <osgi.bundle.name>${project.name}</osgi.bundle.name>
+    <osgi.bundle.symbolic.name>${project.artifactId}</osgi.bundle.symbolic.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
+    <java.version.required>1.8</java.version.required>
     <maven.compiler.target>1.7</maven.compiler.target>
     <spring.version>5.0.8.RELEASE</spring.version>
     <servlet-api.version>3.0.1</servlet-api.version>
-    <jackson.databind-version>2.9.7</jackson.databind-version>
+    <jackson.databind-version>2.2.1</jackson.databind-version>
     <mongodb.version>2.1.0.RELEASE</mongodb.version>
     <log4j.version>2.4.1</log4j.version>
     <junit.version>4.12</junit.version>
     <easymock.version>3.4</easymock.version>
-    <validation-api.version>2.0.0.Final</validation-api.version>
+    <validation-api.version>1.1.0.Final</validation-api.version>
     <apache.commons.vesrion>3.2.1</apache.commons.vesrion>
   </properties>
 
@@ -119,6 +123,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        <version>${cxf-version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
         <version>${validation-api.version}</version>
@@ -127,6 +137,12 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
+        <version>${jackson.databind-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <artifactId>jackson-jaxrs-json-provider</artifactId>
         <version>${jackson.databind-version}</version>
       </dependency>
 
@@ -172,27 +188,5 @@
 
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.eclipse.jetty</groupId>
-          <artifactId>jetty-maven-plugin</artifactId>
-          <version>9.4.0.v20161208</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compil-plugin</artifactId>
-          <version>3.5.1</version>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 
 </project>
