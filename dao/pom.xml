@@ -20,6 +20,11 @@
       <artifactId>model</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.com.evgen</groupId>
+      <artifactId>service-api</artifactId>
+    </dependency>
+
     <!--spring-->
 
     <dependency>
@@ -79,6 +84,18 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+    </dependency>
+
+    <!--ActiveMq-->
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-spring</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jms</artifactId>
     </dependency>
 
   </dependencies>

@@ -1,20 +1,20 @@
 package com.evgen;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Message implements Serializable {
 
   private String id;
   private String endPoint;
-  private Object requestObject;
+  private List<Object> requestObject;
 
   public Message() {
   }
 
-  public Message(String id, String endPoint, Object requestObject) {
+  public Message(String id, String endPoint) {
     this.id = id;
     this.endPoint = endPoint;
-    this.requestObject = requestObject;
   }
 
   public String getId() {
@@ -33,11 +33,11 @@ public class Message implements Serializable {
     this.endPoint = endPoint;
   }
 
-  public Object getRequestObject() {
+  public List<Object> getRequestObject() {
     return requestObject;
   }
 
-  public void setRequestObject(Object requestObject) {
+  public void setRequestObject(List<Object> requestObject) {
     this.requestObject = requestObject;
   }
 }
