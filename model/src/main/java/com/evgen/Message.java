@@ -1,6 +1,7 @@
 package com.evgen;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Message implements Serializable {
@@ -15,6 +16,7 @@ public class Message implements Serializable {
   public Message(String id, String endPoint) {
     this.id = id;
     this.endPoint = endPoint;
+    this.requestObject = new ArrayList<>();
   }
 
   public String getId() {
