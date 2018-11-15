@@ -1,5 +1,8 @@
 package com.evgen.messaging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,7 @@ public class MessageReceiver {
     this.messageSender = messageSender;
   }
 
-  @JmsListener(destination = "queue-reservation")
+  @JmsListener(destination = "reservation-queue")
   public void receiveMessage(final Message<com.evgen.Message> message) {
 
     MessageHeaders headers = message.getHeaders();
@@ -37,34 +40,36 @@ public class MessageReceiver {
       case "createReservation":
         Guest guest = reservationService.createReservation((ReservationRequest) response.getRequestObject());
 
-        com.evgen.Message createReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint());
-        createReservationResponse.getRequestObject().add(guest);
+        com.evgen.Message createReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint(),
+            guest);
 
         messageSender.sendMessage(createReservationResponse);
         break;
       case "deleteReservation":
-        Guest guest1 = reservationService.deleteReservation(response.getRequestObject().get(0).toString(),
-            response.getRequestObject().get(1).toString());
+        List<Object> requestsParamsForDelete = (ArrayList<Object>) response.getRequestObject();
+        Guest guest1 = reservationService.deleteReservation(requestsParamsForDelete.get(0).toString(),
+            requestsParamsForDelete.get(1).toString());
 
-        com.evgen.Message deleteReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint());
-        deleteReservationResponse.getRequestObject().add(guest1);
+        com.evgen.Message deleteReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint(),
+            guest1);
 
         messageSender.sendMessage(deleteReservationResponse);
         break;
       case "retrieveReservation":
         Reservation reservation = reservationService.retrieveReservation(response.getRequestObject().toString());
 
-        com.evgen.Message retrieveReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint());
-        retrieveReservationResponse.getRequestObject().add(reservation);
+        com.evgen.Message retrieveReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint(),
+            reservation);
 
         messageSender.sendMessage(retrieveReservationResponse);
         break;
       case "updateReservation":
-        Guest guest2 = reservationService.updateReservation(response.getRequestObject().get(0).toString(),
-            (ReservationRequest) response.getRequestObject().get(1));
+        List<Object> requestsParamsForUpdate = (ArrayList<Object>) response.getRequestObject();
+        Guest guest2 = reservationService.updateReservation(requestsParamsForUpdate.get(0).toString(),
+            (ReservationRequest) requestsParamsForUpdate.get(1));
 
-        com.evgen.Message updateReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint());
-        updateReservationResponse.getRequestObject().add(guest2);
+        com.evgen.Message updateReservationResponse = new com.evgen.Message(response.getId(), response.getEndPoint(),
+            guest2);
 
         messageSender.sendMessage(updateReservationResponse);
         break;

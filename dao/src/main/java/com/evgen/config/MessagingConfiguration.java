@@ -14,7 +14,7 @@ public class MessagingConfiguration {
   @Value("${activeMq.url}")
   private String DEFAULT_BROKER_URL;
 
-  @Value("${activeMq.response-queue}")
+  @Value("${activeMq.reservation-response-queue}")
   private String RESPONSE_QUEUE;
 
   @Bean
