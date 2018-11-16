@@ -1,8 +1,10 @@
 package com.evgen;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 
-public class ReservationRequest {
+public class ReservationRequest implements Serializable {
 
   @NotNull(message = "ApartmentNumber cannot be null")
   private String apartmentNumber;

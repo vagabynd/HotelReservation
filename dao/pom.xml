@@ -10,24 +10,22 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>dao</artifactId>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
   <dependencies>
+
+    <!--project-->
+
     <dependency>
       <groupId>com.com.evgen</groupId>
       <artifactId>model</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.com.evgen</groupId>
+      <artifactId>service-api</artifactId>
+    </dependency>
+
+    <!--spring-->
 
     <dependency>
       <groupId>org.springframework</groupId>
@@ -43,6 +41,11 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
     </dependency>
 
     <dependency>
@@ -76,16 +79,38 @@
       <artifactId>log4j-jcl</artifactId>
     </dependency>
 
+    <!--test-->
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
 
+    <!--ActiveMq-->
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-spring</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
+      <artifactId>spring-jms</artifactId>
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

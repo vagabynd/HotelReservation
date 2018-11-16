@@ -1,5 +1,6 @@
 package com.evgen;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -14,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
         unique = true,
         def = "{'apartmentNumber' : 2, 'reservationDay' : 2, 'hotel' : 1}")
 })
-public class Reservation {
+public class Reservation implements Serializable {
 
   @Id
   private String reservationId;

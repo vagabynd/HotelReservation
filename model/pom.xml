@@ -12,6 +12,7 @@
   <artifactId>model</artifactId>
 
   <dependencies>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -26,6 +27,7 @@
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
     </dependency>
+
   </dependencies>
 
 </project>
