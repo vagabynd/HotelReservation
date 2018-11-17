@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.evgen.test.DaoImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2018-11-17T13:34:31" hostname="EPBYBREW0081" time="14.605">
+  <properties/>
+  <testcase name="getGuestsTest" classname="com.evgen.test.DaoImplTest" time="0.191"/>
+  <testcase name="getReservationByIdTest" classname="com.evgen.test.DaoImplTest" time="0.285"/>
+  <testcase name="saveReservationTest" classname="com.evgen.test.DaoImplTest" time="0.068"/>
+  <testcase name="getHotelByNameTest" classname="com.evgen.test.DaoImplTest" time="0.087"/>
+  <testcase name="saveExistReservationTest" classname="com.evgen.test.DaoImplTest" time="0.082"/>
+  <testcase name="addReservationToGuestTest" classname="com.evgen.test.DaoImplTest" time="13.61"/>
+  <testcase name="deleteReservationByIdTest" classname="com.evgen.test.DaoImplTest" time="0.278"/>
+  <system-out><![CDATA[16:34:29.798 [Test worker] INFO  org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+16:34:29.808 [Test worker] INFO  org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@34118206, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@2dd40bae, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3507bb8e, org.springframework.test.context.transaction.TransactionalTestExecutionListener@270ada21, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@1f337d74]
+16:34:31.466 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: get all guest
+16:34:31.655 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: get reservation by id
+16:34:31.942 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: save reservation
+16:34:32.011 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: get hotel by name
+16:34:32.098 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: save exist reservation
+16:34:32.179 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: add reservation to guest
+16:34:45.791 [Test worker] DEBUG com.evgen.test.DaoImplTest - test: delete reservation by id
+]]></system-out>
+  <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+]]></system-err>
+</testsuite>

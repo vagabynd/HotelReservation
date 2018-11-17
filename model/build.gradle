@@ -1,0 +1,7 @@
+
+description = ''
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.7'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version:'2.1.0.RELEASE'
+    compile group: 'javax.validation', name: 'validation-api', version:'2.0.0.Final'
+}

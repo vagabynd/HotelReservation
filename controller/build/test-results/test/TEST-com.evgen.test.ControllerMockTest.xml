@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.evgen.test.ControllerMockTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2018-11-17T13:34:28" hostname="EPBYBREW0081" time="0.172">
+  <properties/>
+  <testcase name="retrieveReservationTest" classname="com.evgen.test.ControllerMockTest" time="0.138"/>
+  <testcase name="deleteReservationTest" classname="com.evgen.test.ControllerMockTest" time="0.013"/>
+  <testcase name="createReservationTest" classname="com.evgen.test.ControllerMockTest" time="0.015"/>
+  <testcase name="updateReservationTest" classname="com.evgen.test.ControllerMockTest" time="0.006"/>
+  <system-out><![CDATA[16:34:27.981 [Test worker] INFO  org.springframework.test.context.web.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+16:34:27.994 [Test worker] INFO  org.springframework.test.context.web.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@786cda11, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5f3eb8ca, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4083a8f, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28ae6e02, org.springframework.test.context.transaction.TransactionalTestExecutionListener@360c9554, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@1c5e93b7]
+16:34:28.473 [Test worker] INFO  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/reservations/{id}],methods=[GET]}" onto public com.evgen.Reservation com.evgen.controller.ReservationController.retrieveReservation(java.lang.String)
+16:34:28.475 [Test worker] INFO  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/reservations/{id}],methods=[DELETE]}" onto public com.evgen.Guest com.evgen.controller.ReservationController.deleteReservation(java.lang.String,java.lang.String)
+16:34:28.475 [Test worker] INFO  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/reservations],methods=[POST]}" onto public com.evgen.Guest com.evgen.controller.ReservationController.createReservation(com.evgen.ReservationRequest)
+16:34:28.476 [Test worker] INFO  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping - Mapped "{[/reservations/{id}],methods=[PUT]}" onto public com.evgen.Guest com.evgen.controller.ReservationController.updateReservation(java.lang.String,com.evgen.ReservationRequest)
+16:34:28.612 [Test worker] INFO  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@986ad98, started on Sat Nov 17 16:34:28 MSK 2018
+16:34:28.691 [Test worker] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+16:34:28.691 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization started
+16:34:28.699 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization completed in 8 ms
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /reservations/5bc7340b677aa44e986d19db
+       Parameters = {}
+          Headers = {Accept=[application/json]}
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.evgen.controller.ReservationController
+           Method = public com.evgen.Reservation com.evgen.controller.ReservationController.retrieveReservation(java.lang.String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = {Content-Type=[application/json;charset=UTF-8]}
+     Content type = application/json;charset=UTF-8
+             Body = {"reservationId":"5bc7340b677aa44e986d19db","hotel":{"hotelId":null,"hotelName":null,"apartments":null},"apartmentNumber":"2","reservationDay":null,"startReservationDay":null,"endReservationDay":null}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+16:34:28.818 [Test worker] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+16:34:28.818 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization started
+16:34:28.819 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+
+MockHttpServletRequest:
+      HTTP Method = DELETE
+      Request URI = /reservations/5bc7340b677aa44e986d19db
+       Parameters = {}
+          Headers = {guestId=[5bc449c09ddbcd660ac58f07], Accept=[application/json]}
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.evgen.controller.ReservationController
+           Method = public com.evgen.Guest com.evgen.controller.ReservationController.deleteReservation(java.lang.String,java.lang.String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = {Content-Type=[application/json;charset=UTF-8]}
+     Content type = application/json;charset=UTF-8
+             Body = {"guestId":"5bc449c09ddbcd660ac58f07","name":"sergei","password":null,"reservations":[{"reservationId":"5bc7340b677aa44e986d19db","hotel":{"hotelId":null,"hotelName":null,"apartments":null},"apartmentNumber":"2","reservationDay":null,"startReservationDay":null,"endReservationDay":null}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+16:34:28.831 [Test worker] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+16:34:28.831 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization started
+16:34:28.832 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /reservations
+       Parameters = {}
+          Headers = {Content-Type=[application/json], Accept=[application/json]}
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.evgen.controller.ReservationController
+           Method = public com.evgen.Guest com.evgen.controller.ReservationController.createReservation(com.evgen.ReservationRequest)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = {Content-Type=[application/json;charset=UTF-8]}
+     Content type = application/json;charset=UTF-8
+             Body = {"guestId":"5bc449c09ddbcd660ac58f07","name":"sergei","password":null,"reservations":[{"reservationId":"5bc7340b677aa44e986d19db","hotel":{"hotelId":null,"hotelName":null,"apartments":null},"apartmentNumber":"2","reservationDay":null,"startReservationDay":null,"endReservationDay":null}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+16:34:28.846 [Test worker] INFO  org.springframework.mock.web.MockServletContext - Initializing Spring FrameworkServlet ''
+16:34:28.846 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization started
+16:34:28.847 [Test worker] INFO  org.springframework.test.web.servlet.TestDispatcherServlet - FrameworkServlet '': initialization completed in 1 ms
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /reservations/5bc7340b677aa44e986d19db
+       Parameters = {}
+          Headers = {Content-Type=[application/json], Accept=[application/json]}
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.evgen.controller.ReservationController
+           Method = public com.evgen.Guest com.evgen.controller.ReservationController.updateReservation(java.lang.String,com.evgen.ReservationRequest)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 202
+    Error message = null
+          Headers = {Content-Type=[application/json;charset=UTF-8]}
+     Content type = application/json;charset=UTF-8
+             Body = {"guestId":"5bc449c09ddbcd660ac58f07","name":"sergei","password":null,"reservations":[{"reservationId":"5bc7340b677aa44e986d19db","hotel":{"hotelId":null,"hotelName":null,"apartments":null},"apartmentNumber":"2","reservationDay":null,"startReservationDay":null,"endReservationDay":null}]}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
