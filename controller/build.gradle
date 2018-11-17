@@ -1,5 +1,11 @@
 
 apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+gretty {
+  httpPort = 8888
+  contextPath = '/'
+}
 
 description = ''
 dependencies {
