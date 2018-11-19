@@ -1,5 +1,12 @@
 version: "2.1"
 services:
+
+  activemq:
+    container_name: activemq
+    image: webcenter/activemq
+    ports:
+     - "61616:61616"
+
   hotel-reservation:
     container_name: hotel-reservation
     image: jetty
@@ -7,13 +14,14 @@ services:
       - "8888:8080"
     volumes:
       - "./targetDeploy:/var/lib/jetty/webapps"
+
   hotel-availability:
     container_name: hotel-availability
     image: jetty
     ports:
       - "8890:8080"
     volumes:
-      - "/home/yauheni_rotar/Documents/Projects/AvailabilityHotelReservation/targetDeploy:/var/lib/jetty/webapps"
+      - "/home/yauheni_rotar/Documents/Projects/Hotel/AvailabilityHotelReservation/targetDeploy:/var/lib/jetty/webapps"
 
   hotel-view:
     container_name: hotel-view
@@ -21,4 +29,4 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "/home/yauheni_rotar/Documents/Projects/HotelView/targetDeploy:/var/lib/jetty/webapps"
+      - "/home/yauheni_rotar/Documents/Projects/Hotel/HotelView/targetDeploy:/var/lib/jetty/webapps"
