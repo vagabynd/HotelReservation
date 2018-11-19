@@ -20,7 +20,7 @@ services:
     ports:
       - "8890:8080"
     volumes:
-      - "/home/yauheni_rotar/Documents/Projects/AvailabilityHotelReservation/targetDeploy:/var/lib/jetty/webapps"
+      - "/home/yauheni_rotar/Documents/Projects/Hotel/AvailabilityHotelReservation/targetDeploy:/var/lib/jetty/webapps"
 
   hotel-view:
     container_name: hotel-view
@@ -28,4 +28,4 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "/home/yauheni_rotar/Documents/Projects/HotelView/targetDeploy:/var/lib/jetty/webapps"
+      - "/home/yauheni_rotar/Documents/Projects/Hotel/HotelView/targetDeploy:/var/lib/jetty/webapps"
