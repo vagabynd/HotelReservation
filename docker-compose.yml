@@ -1,5 +1,11 @@
 version: "2.1"
 services:
+  activemq:
+    container_name: activemq
+    image: webcenter/activemq
+    ports:
+     - "61616:61616"
+
   hotel-reservation:
     container_name: hotel-reservation
     image: jetty
@@ -7,6 +13,7 @@ services:
       - "8888:8080"
     volumes:
       - "./targetDeploy:/var/lib/jetty/webapps"
+
   hotel-availability:
     container_name: hotel-availability
     image: jetty
